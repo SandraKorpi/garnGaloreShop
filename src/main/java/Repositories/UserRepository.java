@@ -1,2 +1,4 @@
-package Repositories;public interface UserRepository {
+package Repositories;
+
+public interface UserRepository {
 }

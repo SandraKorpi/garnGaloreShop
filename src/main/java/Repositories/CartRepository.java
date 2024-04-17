@@ -1,2 +1,4 @@
-package Repositories;public interface CartRepository {
+package Repositories;
+
+public interface CartRepository {
 }

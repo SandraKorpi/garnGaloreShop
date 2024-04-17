@@ -1,2 +1,4 @@
-package Utils;public class EmailSenderPack {
+package Utils;
+
+public class EmailSenderPack {
 }

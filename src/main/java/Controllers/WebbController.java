@@ -1,2 +1,4 @@
-package Controllers;public class WebbController {
+package Controllers;
+
+public class WebbController {
 }

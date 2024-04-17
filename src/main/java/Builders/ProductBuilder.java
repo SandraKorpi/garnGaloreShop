@@ -1,2 +1,4 @@
-package Builders;public class ProductBuilder {
+package Builders;
+
+public class ProductBuilder {
 }

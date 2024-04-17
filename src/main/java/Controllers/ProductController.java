@@ -1,2 +1,4 @@
-package Controllers;public class ProductController {
+package Controllers;
+
+public class ProductController {
 }

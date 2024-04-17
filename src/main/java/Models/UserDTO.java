@@ -1,2 +1,4 @@
-package Models;public class UserDTO {
+package Models;
+
+public class UserDTO {
 }

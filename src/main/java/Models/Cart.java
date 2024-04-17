@@ -1,2 +1,4 @@
-package Models;public class Cart {
+package Models;
+
+public class Cart {
 }
