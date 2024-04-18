@@ -1,4 +1,7 @@
 package Repositories;
 
-public interface CartRepository {
+import Models.Cart;
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+public interface CartRepository extends MongoRepository<Cart, Long> {
 }
