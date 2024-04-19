@@ -1,4 +1,4 @@
-package Models;
+package com.example.grupp3.garngalore.Models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
