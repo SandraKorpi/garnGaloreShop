@@ -15,9 +15,9 @@ import java.util.List;
 public class Cart {
 
     @Id
-    private Long id;
+    private String id;
 
-    private Long userID;
+    private String userID;
 
     private List<Product> productList;
 

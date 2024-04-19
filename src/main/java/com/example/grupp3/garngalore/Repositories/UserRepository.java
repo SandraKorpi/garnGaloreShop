@@ -2,6 +2,8 @@ package com.example.grupp3.garngalore.Repositories;
 
 import com.example.grupp3.garngalore.Models.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends MongoRepository<User, Long> {
+@Repository
+public interface UserRepository extends MongoRepository<User, String> {
 }
