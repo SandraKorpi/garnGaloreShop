@@ -1,5 +1,6 @@
 package com.example.grupp3.garngalore.Services;
 
+import com.example.grupp3.garngalore.Models.Order;
 import com.example.grupp3.garngalore.Repositories.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class OrderService {
     }
 
     public Order getOrderById(String id) {
-        Optional<Order> optionalProduct = orderRepository.findById(id);
+        Optional<Order> optionalOrder = orderRepository.findById(id);
 
         if (optionalOrder.isPresent()) {
             return optionalOrder.get();
