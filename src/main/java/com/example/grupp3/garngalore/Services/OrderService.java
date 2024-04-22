@@ -1,6 +1,5 @@
 package com.example.grupp3.garngalore.Services;
 
-import com.example.grupp3.garngalore.Models.Order;
 import com.example.grupp3.garngalore.Repositories.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
