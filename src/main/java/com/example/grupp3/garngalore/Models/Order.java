@@ -20,8 +20,6 @@ public class Order {
 
     private String userID;
 
-    private String userAdress;
-
     private List<Product> productList;
 
     private double totalPrice;
@@ -29,8 +27,4 @@ public class Order {
     private double withShipping;
 
     private int numberOfProducts;
-
-    private String paymentMethod;
-
-    private String status;
 }

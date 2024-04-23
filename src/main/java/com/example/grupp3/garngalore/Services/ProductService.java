@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
 @Service
 public class ProductService {
     @Autowired
@@ -45,5 +46,28 @@ public class ProductService {
 
     public Iterable<Product> getAllProducts() {
         return productRepository.findAll();
+    }
+
+    public Product getProductById(String productId) {
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+
+        if (optionalProduct.isPresent()) {
+            return optionalProduct.get();
+        } else {
+            throw new MongoException("Produkt med ID " + productId + " hittades inte.");
+        }
+    }
+
+    //Reduces the quantity of a product by the given amount, when a product is bought (when cart is paid for)
+    public void updateProductQuantity(String id, int quantity) {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+
+        if (optionalProduct.isPresent()) {
+            Product product = optionalProduct.get();
+            product.setQuantity(quantity);
+            productRepository.save(product);
+        } else {
+            throw new MongoException("Produkt med ID " + id + " hittades inte.");
+        }
     }
 }

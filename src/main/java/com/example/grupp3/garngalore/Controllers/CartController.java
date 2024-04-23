@@ -4,24 +4,31 @@ import com.example.grupp3.garngalore.Models.Cart;
 import com.example.grupp3.garngalore.Models.Order;
 import com.example.grupp3.garngalore.Models.Product;
 import com.example.grupp3.garngalore.Services.CartService;
+import com.example.grupp3.garngalore.Services.OrderService;
+import com.example.grupp3.garngalore.Services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-@RestController
+@Controller
 @RequestMapping("/cart")
 public class CartController {
 
     private final CartService cartService;
     private final RestTemplate restTemplate;
+    private final OrderService orderService;
+    private final ProductService productService;
 
 
     @Autowired
-    public CartController(CartService cartService, RestTemplate restTemplate) {
+    public CartController(CartService cartService, RestTemplate restTemplate, OrderService orderService, ProductService productService ) {
         this.cartService = cartService;
         this.restTemplate = new RestTemplate();
+        this.orderService = orderService;
+        this.productService = productService;
     }
 
     @PostMapping("/{userId}/addProduct")
@@ -56,7 +63,7 @@ public class CartController {
 
 
 
-    //Web kontroll för Cart
+    //WEBKONTROLL FÖR CART
 
     //This method is called when the user navigates to /cart/{userId} in the browser
     //The userId is passed as a path variable
@@ -74,6 +81,9 @@ public class CartController {
         //Skapa en order från varukorgen
         Order order = createOrderFromCart(userId);
 
+        //Spara ordern i databasen
+        orderService.createOrder(order);
+
         // Uppdatera produktkvantiteter
         updateProductQuantities(userId);
 
@@ -83,24 +93,23 @@ public class CartController {
         return ResponseEntity.ok("Payment successful");
     }
 
-    //This method is called when the user clicks pay in the browser
+    //This method calls the productService to update the quantity of each product in the inventory
     private void updateProductQuantities(String userId) {
         Cart cart = cartService.getCartByUserId(userId);
         for (Product product : cart.getProductList()) {
-            restTemplate.put("http://localhost:8080/products/updateQuantity/" + product.getId() + "?quantity=" + product.getQuantity(), null);
+            productService.updateProductQuantity(product.getId(), product.getQuantity());
         }
     }
 
+    //This method creates an order from the cart
     private Order createOrderFromCart(String userId) {
         Cart cart = cartService.getCartByUserId(userId);
         Order order = new Order();
+        order.setUserID(userId);
         order.setProductList(cart.getProductList());
         order.setTotalPrice(cart.getTotalPrice());
         order.setWithShipping(cart.getWithShipping());
         order.setNumberOfProducts(cart.getNumberOfProducts());
         return order;
-
     }
-
-
 }

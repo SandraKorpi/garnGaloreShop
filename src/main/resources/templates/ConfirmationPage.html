@@ -107,7 +107,15 @@
 
 <!-- Här lägger du in ditt innehåll -->
 <!-- Lägg in innehållet här -->
-<h1>Din beställning är lagd, tack!</h1>
+
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 align-items-center my-5">
+        <div class="col-lg-5">
+            <h1 class="font-weight-light">Din beställning är mottagen, tack! (${cart.numberOfProducts} antal produkter)</h1>
+            <h2 class="font-weight-light">Din order har nummer: ${order.id}</h2>
+        </div>
+    </div>
+</div>
 
 <!-- Footer-->
 <footer class="py-5 bg-dark">
