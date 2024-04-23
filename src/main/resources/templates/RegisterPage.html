@@ -17,11 +17,11 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: calc(100vh - 300px);
         }
 
         .form-wrapper {
-            width: 400px;
+            width: 50%;
             padding: 20px;
             border: 1px solid #ced4da;
             border-radius: 5px;
@@ -100,6 +100,10 @@
             .navbar-brand {
                 padding-left: 60%;
             }
+
+            .form-wrapper {
+                width: 90%;
+            }
         }
     </style>
 </head>
@@ -156,10 +160,20 @@
     <div class="form-container">
         <div class="form-wrapper">
             <h1>Registrera användare</h1>
+            <!-- Felmeddelande för redan existerande e-postadress -->
+            <div th:if="${error}" class="alert alert-danger" role="alert">
+                <span th:text="${error}"></span>
+            </div>
             <form action="#" th:action="@{/saveUser}" th:object="${user}" method="post">
-                <label for="name">Namn:*</label>
-                <input type="text" id="name" name="name" required />
-                <!-- Textinmatningsfält för användarnamn -->
+                <label for="firstName">Förnamn:*</label>
+                <input type="text" id="firstName" name="firstName" required />
+                <!-- Textinmatningsfält för förnamn -->
+
+                <br/>
+
+                <label for="lastName">Efternamn:*</label>
+                <input type="text" id="lastName" name="lastName" required />
+                <!-- Textinmatningsfält för efternamn -->
 
                 <br/>
 
@@ -175,6 +189,12 @@
 
                 <br/>
 
+                <label for="address">Adress:*</label>
+                <input type="text" id="address" name="address" required />
+                <!-- Textinmatningsfält för adress -->
+
+                <br/>
+
                 <label for="description">Beskrivning:</label>
                 <input type="text" id="description" name="description" />
                 <!-- Textinmatningsfält för beskrivning -->
@@ -186,7 +206,6 @@
         </div>
     </div>
 </section>
-
 
 <!-- Footer-->
 <footer class="py-5 bg-dark">
