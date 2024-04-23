@@ -2,7 +2,7 @@ package com.example.grupp3.garngalore.Services;
 
 import com.example.grupp3.garngalore.Models.User;
 import com.example.grupp3.garngalore.Repositories.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
+import com.mongodb.MongoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class UserService {
         if (optionalUser.isPresent()) {
             return optionalUser.get();
         } else {
-            throw new EntityNotFoundException("Användaren med ID " + id + " hittades inte.");
+            throw new MongoException("Användaren med ID " + id + " hittades inte.");
         }
     }
 
@@ -31,7 +31,7 @@ public class UserService {
         if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
         } else {
-            throw new EntityNotFoundException("Användaren med ID " + id + " finns inte i databasen.");
+            throw new MongoException("Användaren med ID " + id + " finns inte i databasen.");
         }
     }
 
@@ -40,7 +40,7 @@ public class UserService {
             user.setId(id);
             userRepository.save(user);
         } else {
-            throw new EntityNotFoundException("Användaren med ID " + id + " finns inte i databasen.");
+            throw new MongoException("Användaren med ID " + id + " finns inte i databasen.");
         }
     }
 
