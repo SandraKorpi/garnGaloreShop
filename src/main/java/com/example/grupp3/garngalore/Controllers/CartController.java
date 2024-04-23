@@ -61,7 +61,7 @@ public class CartController {
     //This method is called when the user navigates to /cart/{userId} in the browser
     //The userId is passed as a path variable
     //The method fetches the cart for the user with the given userId from the database
-    @GetMapping("/{userId}")
+    @GetMapping("/{userId}.html") //Lagt dit .html för att inte ha två av samma.
     public String getCartByUserId(@PathVariable String userId, Model model) {
         Cart cart = cartService.getCartByUserId(userId);
         model.addAttribute("cart", cart);

@@ -17,7 +17,7 @@ public class Cart {
     @Id
     private String id;
 
-    private String userID;
+    private String userId;
 
     private List<Product> productList;
 
