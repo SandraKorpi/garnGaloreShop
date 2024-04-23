@@ -4,7 +4,7 @@ package com.example.grupp3.garngalore.Services;
 import com.example.grupp3.garngalore.Models.Cart;
 import com.example.grupp3.garngalore.Models.Product;
 import com.example.grupp3.garngalore.Repositories.CartRepository;
-import jakarta.persistence.EntityNotFoundException;
+import com.mongodb.MongoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,7 @@ public class CartService {
         if (optionalCart.isPresent()) {
             return optionalCart.get();
         } else {
-            throw new EntityNotFoundException("Kundvagn med ID " + id + " hittades inte.");
+            throw new MongoException("Kundvagn med ID " + id + " hittades inte.");
         }
     }
 
@@ -33,7 +33,7 @@ public class CartService {
         if (cartRepository.existsById(id)) {
             cartRepository.deleteById(id);
         } else {
-            throw new EntityNotFoundException("Kundvagn med ID " + id + " finns inte i databasen.");
+            throw new MongoException("Kundvagn med ID " + id + " finns inte i databasen.");
         }
     }
 
@@ -42,7 +42,7 @@ public class CartService {
             cart.setId(id);
             cartRepository.save(cart);
         } else {
-            throw new EntityNotFoundException("Kundvagn med ID " + id + " finns inte i databasen.");
+            throw new MongoException("Kundvagn med ID " + id + " finns inte i databasen.");
         }
     }
 
@@ -71,7 +71,7 @@ public class CartService {
         if (optionalCart.isPresent()) {
             return optionalCart.get();
         } else {
-            throw new EntityNotFoundException("Kundvagn för användare med ID " + userId + " hittades inte.");
+            throw new MongoException("Kundvagn för användare med ID " + userId + " hittades inte.");
         }
     }
 
@@ -84,7 +84,7 @@ public class CartService {
             cart.removeProduct(productId);
             cartRepository.save(cart);
         } else {
-            throw new EntityNotFoundException("Kundvagn för användare med ID " + userId + " hittades inte.");
+            throw new MongoException("Kundvagn för användare med ID " + userId + " hittades inte.");
         }
 
     }
@@ -97,7 +97,7 @@ public class CartService {
             cart.updateProductQuantity(productId, quantity);
             cartRepository.save(cart);
         } else {
-            throw new EntityNotFoundException("Kundvagn för användare med ID " + userId + " hittades inte.");
+            throw new MongoException("Kundvagn för användare med ID " + userId + " hittades inte.");
         }
     }
 
@@ -111,7 +111,7 @@ public class CartService {
             cart.setNumberOfProducts(0);
             cartRepository.save(cart);
         } else {
-            throw new EntityNotFoundException("Kundvagn för användare med ID " + userId + " hittades inte.");
+            throw new MongoException("Kundvagn för användare med ID " + userId + " hittades inte.");
         }
     }
 }

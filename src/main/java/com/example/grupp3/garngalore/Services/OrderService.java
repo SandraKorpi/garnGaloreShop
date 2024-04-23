@@ -2,7 +2,7 @@ package com.example.grupp3.garngalore.Services;
 
 import com.example.grupp3.garngalore.Models.Order;
 import com.example.grupp3.garngalore.Repositories.OrderRepository;
-import jakarta.persistence.EntityNotFoundException;
+import com.mongodb.MongoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class OrderService {
         if (optionalOrder.isPresent()) {
             return optionalOrder.get();
         } else {
-            throw new EntityNotFoundException("Order med ID " + id + " hittades inte.");
+            throw new MongoException("Order med ID " + id + " hittades inte.");
         }
     }
 
@@ -31,7 +31,7 @@ public class OrderService {
         if (orderRepository.existsById(id)) {
             orderRepository.deleteById(id);
         } else {
-            throw new EntityNotFoundException("Order med ID " + id + " finns inte i databasen.");
+            throw new MongoException("Order med ID " + id + " finns inte i databasen.");
         }
     }
 
@@ -40,7 +40,7 @@ public class OrderService {
             order.setId(id);
             orderRepository.save(order);
         } else {
-            throw new EntityNotFoundException("Order med ID " + id + " finns inte i databasen.");
+            throw new MongoException("Order med ID " + id + " finns inte i databasen.");
         }
     }
 
