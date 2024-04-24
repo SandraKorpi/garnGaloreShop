@@ -26,7 +26,8 @@ public class CartController {
     @Autowired
     public CartController(CartService cartService, RestTemplate restTemplate, OrderService orderService, ProductService productService ) {
         this.cartService = cartService;
-        this.restTemplate = new RestTemplate();
+//        this.restTemplate = new RestTemplate();
+        this.restTemplate = restTemplate;
         this.orderService = orderService;
         this.productService = productService;
     }
