@@ -37,17 +37,17 @@ public class ProductSeeder implements CommandLineRunner {
         product1.setDescription("Ekologiskt garn i lila färg.");
         product1.setCategory("Ekologiskt garn");
         product1.setQuantity(10);
-        product1.setBild("/static/images/product1.jpg");
+        product1.setBild("/static/images/lila garn.png");
         product1.setColor("Lila");
 
         Product product2 = new Product();
-        product1.setName("Blå ekologiskt garn");
+        product1.setName("Grön ekologiskt garn");
         product1.setPrice(100);
-        product1.setDescription("Ekologiskt garn i blå färg.");
+        product1.setDescription("Ekologiskt garn i grön färg.");
         product1.setCategory("Ekologiskt garn");
         product1.setQuantity(10);
-        product1.setBild("/static/images/product2.jpg");
-        product1.setColor("Blå");
+        product1.setBild("/static/images/grönt ullgarn.png");
+        product1.setColor("Grön");
 
         Product product3 = new Product();
         product1.setName("Gult självlysande garn");
@@ -55,7 +55,7 @@ public class ProductSeeder implements CommandLineRunner {
         product1.setDescription("Självlysande garn i gul färg.");
         product1.setCategory("Självlysande garn");
         product1.setQuantity(10);
-        product1.setBild("/static/images/product3.jpg");
+        product1.setBild("/static/images/Gult självlysande garn.png");
         product1.setColor("Gul");
 
         Product product4 = new Product();
@@ -64,7 +64,7 @@ public class ProductSeeder implements CommandLineRunner {
         product1.setDescription("Självlysande garn i rosa färg.");
         product1.setCategory("Självlysande garn");
         product1.setQuantity(10);
-        product1.setBild("/static/images/product4.jpg");
+        product1.setBild("/static/images/rosa självlysande garn.png");
         product1.setColor("Rosa");
 
         Product product5 = new Product();
@@ -73,7 +73,7 @@ public class ProductSeeder implements CommandLineRunner {
         product1.setDescription("Handgjort ullgarn i blå färg.");
         product1.setCategory("Handgjort ullgarn");
         product1.setQuantity(10);
-        product1.setBild("/static/images/product5.jpg");
+        product1.setBild("/static/images/Blått ullgarn.jpg");
         product1.setColor("Blå");
 
         Product product6 = new Product();
@@ -82,7 +82,7 @@ public class ProductSeeder implements CommandLineRunner {
         product1.setDescription("Handgjort ullgarn i gul färg.");
         product1.setCategory("Handgjort ullgarn");
         product1.setQuantity(10);
-        product1.setBild("/static/images/product6.jpg");
+        product1.setBild("/static/images/Gul ullgarn.jpg");
         product1.setColor("Gul");
 
         Product product7 = new Product();
@@ -91,7 +91,7 @@ public class ProductSeeder implements CommandLineRunner {
         product1.setDescription("Alpackagarn i grå färg.");
         product1.setCategory("Alpackagarn");
         product1.setQuantity(10);
-        product1.setBild("/static/images/product7.jpg");
+        product1.setBild("/static/images/grå alpackagarn.jpg");
         product1.setColor("Grått");
 
         Product product8 = new Product();
@@ -100,7 +100,7 @@ public class ProductSeeder implements CommandLineRunner {
         product1.setDescription("Alpackagarn i vit färg.");
         product1.setCategory("Alpackagarn");
         product1.setQuantity(10);
-        product1.setBild("/static/images/product8.jpg");
+        product1.setBild("/static/images/Vitt Alpacka.jpg");
         product1.setColor("Vit");
 
         // Save products to the database
