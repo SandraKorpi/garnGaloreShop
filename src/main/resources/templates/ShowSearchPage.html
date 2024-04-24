@@ -101,6 +101,28 @@
                 padding-left: 60%;
             }
         }
+
+        .container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .product {
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: left;
+            box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-img {
+            width: 100%;
+            max-width: 200px;
+            height: auto;
+            display: block;
+            margin: 0 auto 15px;
+        }
     </style>
 </head>
 <body>
@@ -143,10 +165,18 @@
 <!-- Här lägger du in ditt innehåll -->
 <div class="container mt-5">
     <h1>All Products</h1>
-    <div th:each="product : ${products}">
-        <h2 th:text="${product.name}"></h2>
-        <p th:text="${product.description}"></p>
-        <a th:href="@{/product/{id}(id=${product.id})}">View Product</a>
+    <div class="search-results">
+        <div th:each="product : ${products}">
+            <div class="product">
+                <img src="../../../../../startbootstrap-shop-homepage-gh-pages/assets/favicon.ico" alt="Produktbild" class="product-img">
+                <h2 th:text="${product.name}"></h2>
+                <p><strong>Färg:</strong> <span th:text="${product.color}"></span></p>
+                <p><strong>Beskrivning:</strong> <span th:text="${product.description}"></span></p>
+                <p><strong>Kategori:</strong> <span th:text="${product.category}"></span></p>
+                <p><strong>Pris:</strong> <span th:text="${product.price}"></span></p>
+                <a th:href="@{/product/{id}(id=${product.id})}">View Product</a>
+            </div>
+        </div>
     </div>
 </div>
 
