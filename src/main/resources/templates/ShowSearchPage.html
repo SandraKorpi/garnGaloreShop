@@ -102,7 +102,7 @@
             }
         }
 
-        .container {
+        .content-container {
             text-align: center;
             margin-top: 30px;
         }
@@ -163,12 +163,12 @@
 </nav>
 
 <!-- Här lägger du in ditt innehåll -->
-<div class="container mt-5">
+<div class="container mt-5 content-container">
     <h1>All Products</h1>
     <div class="search-results">
         <div th:each="product : ${products}">
             <div class="product">
-                <img src="../../../../../startbootstrap-shop-homepage-gh-pages/assets/favicon.ico" alt="Produktbild" class="product-img">
+                <img th:src="@{${product.bild}}" alt="Produktbild" class="product-img">
                 <h2 th:text="${product.name}"></h2>
                 <p><strong>Färg:</strong> <span th:text="${product.color}"></span></p>
                 <p><strong>Beskrivning:</strong> <span th:text="${product.description}"></span></p>
