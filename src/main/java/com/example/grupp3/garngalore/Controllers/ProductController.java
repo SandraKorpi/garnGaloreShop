@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Controller
 public class ProductController {
@@ -39,8 +41,36 @@ public class ProductController {
     public String showProduct(@PathVariable String id, Model model) {
         Product product = productRepository.findById(id).orElse(null);
         model.addAttribute("product", product);
-        return "product";
+        return "productInfo";
+    }
+    @GetMapping("/index")
+    public String showIndex(Model model) {
+        // Hämta alla produkter från databasen
+        List<Product> allProducts = productRepository.findAll();
+
+        // Skapa en lista för att lagra slumpmässiga produkter
+        List<Product> randomProducts = getRandomProducts(allProducts, 4); // Hämta 4 slumpmässiga produkter
+
+        // Skicka de slumpmässiga produkterna till vyn
+        model.addAttribute("products", randomProducts);
+
+        return "index"; // Namnet på din startsida-HTML-templaten
     }
 
+    // Metod för att hämta ett slumpmässigt antal produkter från en lista
+    private List<Product> getRandomProducts(List<Product> productList, int count) {
+        Random random = new Random();
+        int listSize = productList.size();
 
+        // Skapa en lista för att lagra slumpmässiga produkter
+        List<Product> randomProducts = new ArrayList<>();
+
+        // Hämta slumpmässiga produkter från listan baserat på det angivna antalet
+        for (int i = 0; i < count; i++) {
+            int randomIndex = random.nextInt(listSize);
+            randomProducts.add(productList.get(randomIndex));
+        }
+
+        return randomProducts;
+    }
 }
