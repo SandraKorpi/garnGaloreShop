@@ -131,7 +131,8 @@
             <div th:each="product : ${products}" class="col mb-5">
                 <div class="card h-100">
                     <!-- Produktbild -->
-                    <img class="card-img-top" th:src="@{'/path/to/your/image/' + ${product.bild}}" alt="..." />
+                    <img th:src="@{${product.bild}}" alt="Produktbild" class="product-img">
+
                     <div class="card-body p-4">
                         <div class="text-center">
                             <!-- Produktens namn -->
