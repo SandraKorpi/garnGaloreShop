@@ -2,17 +2,18 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
     <title>Shop Homepage - Start Bootstrap Template</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="../../../../../startbootstrap-shop-homepage-gh-pages/assets/favicon.ico" />
+    <link rel="icon" type="image/x-icon"
+          href="../../../../../startbootstrap-shop-homepage-gh-pages/assets/favicon.ico"/>
     <!-- Bootstrap icons-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="../../../../../startbootstrap-shop-homepage-gh-pages/css/styles.css" rel="stylesheet" />
+    <link href="../../../../../startbootstrap-shop-homepage-gh-pages/css/styles.css" rel="stylesheet"/>
     <style>
         .logo-img {
             height: auto;
@@ -71,7 +72,9 @@
     <div class="container px-4 px-lg-5">
         <a class="navbar-brand" href="#!">Garn Galore</a>
         <img src="../images/logga.png" class="logo-img" alt="Logo">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
+                class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <!--Länkar mellan sidorna-->
@@ -80,7 +83,8 @@
                 <li class="nav-item"><a class="nav-link" th:href="@{/info}">Info</a></li>
                 <!-- Mer dropdown -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMore" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mer</a>
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMore" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">Mer</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMore">
                         <li><a class="dropdown-item" th:href="@{/registerUser}">Registrera användare</a></li>
                         <li><a class="dropdown-item" th:href="@{/customerService}">Kundtjänst</a></li>
@@ -95,7 +99,8 @@
 
             <!-- Sökfunktion -->
             <form class="search-form d-flex me-3" th:action="@{/products}" method="get">
-                <input class="form-control search-input me-2" type="search" placeholder="Sök" aria-label="Search" name="keyword">
+                <input class="form-control search-input me-2" type="search" placeholder="Sök" aria-label="Search"
+                       name="keyword">
                 <button class="btn btn-outline-dark" type="submit">Sök</button>
             </form>
             <!-- Min sida länk -->
@@ -136,7 +141,9 @@
                     <div class="card-body p-4">
                         <div class="text-center">
                             <!-- Produktens namn -->
-                            <h5 class="fw-bolder" th:text="${product.name}">Product Name</h5>
+                            <a th:href="@{'/product/' + ${product.id}}">
+                                <h5 class="fw-bolder" th:text="${product.name}">Product Name</h5>
+                            </a>
                             <!-- Pris -->
                             <span th:text="${'$' + product.price}">Price</span>
                         </div>
