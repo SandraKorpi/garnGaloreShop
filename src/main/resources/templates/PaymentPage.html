@@ -132,10 +132,11 @@
                 </a>
             </form>
             <!-- Sökfunktion -->
-            <form class="search-form d-flex me-3">
-                <input class="form-control search-input me-2" type="search" placeholder="Sök" aria-label="Search">
+            <form class="search-form d-flex me-3" th:action="@{/products}" method="get">
+                <input class="form-control search-input me-2" type="search" placeholder="Sök" aria-label="Search" name="keyword">
                 <button class="btn btn-outline-dark" type="submit">Sök</button>
             </form>
+
             <!-- Min sida länk -->
             <form class="d-flex">
                 <a href="MinSidaPage.html" class="btn btn-outline-dark me-3">
