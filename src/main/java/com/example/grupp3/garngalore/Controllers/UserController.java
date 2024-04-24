@@ -1,7 +1,10 @@
 package com.example.grupp3.garngalore.Controllers;
 
+import com.example.grupp3.garngalore.Models.Cart;
 import com.example.grupp3.garngalore.Models.User;
+import com.example.grupp3.garngalore.Repositories.CartRepository;
 import com.example.grupp3.garngalore.Repositories.UserRepository;
+import com.example.grupp3.garngalore.Services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class UserController {
+
+    private final CartService cartService;
+
+    @Autowired
+    public UserController(CartService cartService) {
+        this.cartService= cartService;
+    }
 
     @Autowired
     private UserRepository userRepository;
@@ -35,6 +45,11 @@ public class UserController {
 
         // Sparar användaren om e-postadressen inte finns redan
         userRepository.save(user);
+
+        // Skapa en kundvagn för användaren
+        Cart cart = new Cart(user.getId());
+        cartService.createCart(cart);
+
         return "redirect:/RegisterUser";
     }
 
