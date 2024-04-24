@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -15,14 +16,19 @@
     <style>
         .logo-img {
             height: auto;
-            width: 15%; /* Procentuell storlek för att göra den responsiv */
-            position: absolute; /* Placera bilden framför navigationsmenyn */
-            top: 15px; /* Justera vertikal position */
-            left: 15px; /* Justera horisontell position */
+            width: 15%;
+            /* Procentuell storlek för att göra den responsiv */
+            position: absolute;
+            /* Placera bilden framför navigationsmenyn */
+            top: 15px;
+            /* Justera vertikal position */
+            left: 15px;
+            /* Justera horisontell position */
         }
 
         .navbar-brand {
-            padding-left: 12%; /* Öka vänstermarginalen för navigationsmärket för att undvika att den täcker bilden */
+            padding-left: 12%;
+            /* Öka vänstermarginalen för navigationsmärket för att undvika att den täcker bilden */
         }
 
         @media (max-width: 992px) {
@@ -57,46 +63,47 @@
     </style>
 
 </head>
+
 <body>
 
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
         <a class="navbar-brand" href="#!">Garn Galore</a>
-        <img src="../../../../../startbootstrap-shop-homepage-gh-pages/assets/favicon.ico" class="logo-img" alt="Logo">
+        <img src="../images/logga.png" class="logo-img" alt="Logo">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <!--Länkar mellan sidorna-->
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Hem</a></li>
-                <li class="nav-item"><a class="nav-link" href="AllProductsPage.html">Produkter</a></li>
-                <li class="nav-item"><a class="nav-link" href="InfoPage.html">Info</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/index}">Hem</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/products}">Produkter</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/info}">Info</a></li>
                 <!-- Mer dropdown -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMore" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mer</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMore">
-                        <li><a class="dropdown-item" href="RegisterPage.html">Registrera användare</a></li>
-                        <li><a class="dropdown-item" href="KundtjänstPage.html">Kundtjänst</a></li>
+                        <li><a class="dropdown-item" th:href="@{/registerUser}">Registrera användare</a></li>
+                        <li><a class="dropdown-item" th:href="@{/customerService}">Kundtjänst</a></li>
                     </ul>
                 </li>
             </ul>
 
             <!-- Logga in knapp -->
-            <a href="login.html" class="btn btn-outline-dark me-3">
+            <a th:href="@{/login}" class="btn btn-outline-dark me-3">
                 Logga in
             </a>
 
             <!-- Sökfunktion -->
-            <form class="search-form d-flex me-3">
-                <input class="form-control search-input me-2" type="search" placeholder="Sök" aria-label="Search">
+            <form class="search-form d-flex me-3" th:action="@{/products}" method="get">
+                <input class="form-control search-input me-2" type="search" placeholder="Sök" aria-label="Search" name="keyword">
                 <button class="btn btn-outline-dark" type="submit">Sök</button>
             </form>
             <!-- Min sida länk -->
             <form class="d-flex">
-                <a href="MinSidaPage.html" class="btn btn-outline-dark me-3">
+                <a th:href="@{/myPage}" class="btn btn-outline-dark me-3">
                     Min sida
                 </a>
-                <a href="ShowCartPage.html" class="btn btn-outline-dark">
+                <a th:href="@{/cart/{userId}.html}" class="btn btn-outline-dark">
                     <i class="bi-cart-fill me-1"></i>
                     Kundvagn
                     <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
@@ -105,8 +112,6 @@
         </div>
     </div>
 </nav>
-
-
 
 <!-- Header-->
 <header class="bg-dark py-5">
@@ -117,105 +122,29 @@
         </div>
     </div>
 </header>
-<!-- Section-->
+
+<!-- Section for displaying random products -->
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            <div class="col mb-5">
+            <!-- Loopa igenom de slumpmässiga produkterna -->
+            <div th:each="product : ${products}" class="col mb-5">
                 <div class="card h-100">
-                    <!-- Product image-->
-                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                    <!-- Product details-->
+                    <!-- Produktbild -->
+                    <img class="card-img-top" th:src="@{'/path/to/your/image/' + ${product.image}}" alt="..." />
                     <div class="card-body p-4">
                         <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Fancy Product</h5>
-                            <!-- Product price-->
-                            $40.00 - $80.00
+                            <!-- Produktens namn -->
+                            <h5 class="fw-bolder" th:text="${product.name}">Product Name</h5>
+                            <!-- Pris -->
+                            <span th:text="${'$' + product.price}">Price</span>
                         </div>
                     </div>
-                    <!-- Product actions-->
                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Lägg till i kundvagn</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Sale badge-->
-                    <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                    <!-- Product image-->
-                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                    <!-- Product details-->
-                    <div class="card-body p-4">
                         <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Special Item</h5>
-                            <!-- Product reviews-->
-                            <div class="d-flex justify-content-center small text-warning mb-2">
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                            </div>
-                            <!-- Product price-->
-                            <span class="text-muted text-decoration-line-through">$20.00</span>
-                            $18.00
+                            <!-- Lägg till i kundvagn-knapp -->
+                            <a class="btn btn-outline-dark mt-auto" href="#">Lägg till i kundvagn</a>
                         </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Lägg till i kundvagn</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Sale badge-->
-                    <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                    <!-- Product image-->
-                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Sale Item</h5>
-                            <!-- Product price-->
-                            <span class="text-muted text-decoration-line-through">$50.00</span>
-                            $25.00
-                        </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Lägg till i kundvagn</a></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col mb-5">
-                <div class="card h-100">
-                    <!-- Product image-->
-                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                    <!-- Product details-->
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <!-- Product name-->
-                            <h5 class="fw-bolder">Popular Item</h5>
-                            <!-- Product reviews-->
-                            <div class="d-flex justify-content-center small text-warning mb-2">
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                                <div class="bi-star-fill"></div>
-                            </div>
-                            <!-- Product price-->
-                            $40.00
-                        </div>
-                    </div>
-                    <!-- Product actions-->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Lägg till i kundvagn</a></div>
                     </div>
                 </div>
             </div>
@@ -225,11 +154,15 @@
 
 <!-- Footer-->
 <footer class="py-5 bg-dark">
-    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p>
+    </div>
 </footer>
+
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
 <script src="../../../../../startbootstrap-shop-homepage-gh-pages/js/scripts.js"></script>
 </body>
+
 </html>

@@ -75,7 +75,6 @@ public class CartService {
         }
     }
 
-
     public void removeProductFromCart(String userId, String productId) {
         Optional<Cart> optionalCart = cartRepository.findByUserId(userId);
 

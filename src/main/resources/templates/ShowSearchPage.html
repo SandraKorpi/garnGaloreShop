@@ -13,6 +13,53 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="../../../../../startbootstrap-shop-homepage-gh-pages/css/styles.css" rel="stylesheet" />
     <style>
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-wrapper {
+            width: 400px;
+            padding: 20px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-wrapper h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-wrapper form {
+            text-align: center;
+        }
+
+        .form-wrapper form label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .form-wrapper form input {
+            width: calc(100% - 22px);
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+
+        .form-wrapper form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #0d6efd;
+            border: none;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
         .logo-img {
             height: auto;
             width: 15%; /* Procentuell storlek för att göra den responsiv */
@@ -54,8 +101,29 @@
                 padding-left: 60%;
             }
         }
-    </style>
 
+        .container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .product {
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: left;
+            box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-img {
+            width: 100%;
+            max-width: 200px;
+            height: auto;
+            display: block;
+            margin: 0 auto 15px;
+        }
+    </style>
 </head>
 <body>
 
@@ -63,12 +131,12 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
         <a class="navbar-brand" href="#!">Garn Galore</a>
-        <img src="../../../../../startbootstrap-shop-homepage-gh-pages/assets/favicon.ico" class="logo-img" alt="Logo">
+        <img src="../images/logga.png" class="logo-img" alt="Logo">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link" th:href="@{/index}">Hem</a></li>
-                <li class="nav-item"><a class="nav-link active" th:href="@{/products}">Produkter</a></li>
+                <li class="nav-item"><a class="nav-link" aria-current="page" th:href="@{/index}">Hem</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/products}">Produkter</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/info}">Info</a></li>
                 <!-- Mer dropdown -->
                 <li class="nav-item dropdown">
@@ -81,33 +149,36 @@
             </ul>
             <!-- Logga in knapp -->
             <form class="d-flex me-3">
-                <button class="btn btn-outline-dark" type="submit">
+                <a th:href="@{/login}" class="btn btn-outline-dark" type="submit">
                     Logga in
-                </button>
+                </a>
             </form>
             <!-- Sökfunktion -->
-            <form class="search-form d-flex me-3">
-                <input class="form-control search-input me-2" type="search" placeholder="Sök" aria-label="Search">
+            <form class="search-form d-flex me-3" th:action="@{/products}" method="get">
+                <input class="form-control search-input me-2" type="search" placeholder="Sök" aria-label="Search" name="keyword">
                 <button class="btn btn-outline-dark" type="submit">Sök</button>
-            </form>
-            <!-- Min sida länk -->
-            <form class="d-flex">
-                <a href="#!" class="btn btn-outline-dark me-3">
-                    Min sida
-                </a>
-                <button class="btn btn-outline-dark" type="submit">
-                    <i class="bi-cart-fill me-1"></i>
-                    Kundvagn
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                </button>
             </form>
         </div>
     </div>
 </nav>
 
-
 <!-- Här lägger du in ditt innehåll -->
-<!-- Lägg in innehållet här -->
+<div class="container mt-5">
+    <h1>All Products</h1>
+    <div class="search-results">
+        <div th:each="product : ${products}">
+            <div class="product">
+                <img src="../../../../../startbootstrap-shop-homepage-gh-pages/assets/favicon.ico" alt="Produktbild" class="product-img">
+                <h2 th:text="${product.name}"></h2>
+                <p><strong>Färg:</strong> <span th:text="${product.color}"></span></p>
+                <p><strong>Beskrivning:</strong> <span th:text="${product.description}"></span></p>
+                <p><strong>Kategori:</strong> <span th:text="${product.category}"></span></p>
+                <p><strong>Pris:</strong> <span th:text="${product.price}"></span></p>
+                <a th:href="@{/product/{id}(id=${product.id})}">View Product</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Footer-->
 <footer class="py-5 bg-dark">
