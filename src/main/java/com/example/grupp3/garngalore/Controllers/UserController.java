@@ -26,7 +26,7 @@ public class UserController {
     private UserRepository userRepository;
 
     // Metod för att visa formulärsidan
-    @GetMapping("/RegisterUser")
+    @GetMapping("/registerUser")
     public String showUserForm(Model model) {
         model.addAttribute("user", new User());
         return "RegisterPage";
@@ -50,7 +50,7 @@ public class UserController {
     }
 
         // Metod för att visa formulärsidan för inloggning
-        @GetMapping("/LogIn")
+        @GetMapping("/logIn")
         public String showLoginForm (Model model){
             model.addAttribute("user", new User());
             return "LogInPage"; // Namnet på ditt inloggnings-HTML-templaten
