@@ -46,10 +46,6 @@ public class UserController {
         // Sparar användaren om e-postadressen inte finns redan
         userRepository.save(user);
 
-        // Skapa en kundvagn för användaren
-        Cart cart = new Cart(user.getId());
-        cartService.createCart(cart);
-
         return "redirect:/RegisterUser";
     }
 

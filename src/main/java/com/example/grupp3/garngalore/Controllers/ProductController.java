@@ -1,23 +1,37 @@
 package com.example.grupp3.garngalore.Controllers;
 
+import com.example.grupp3.garngalore.Models.Cart;
 import com.example.grupp3.garngalore.Models.Product;
 import com.example.grupp3.garngalore.Repositories.ProductRepository;
+import com.example.grupp3.garngalore.Services.CartService;
+import com.example.grupp3.garngalore.Services.ProductService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model; // Uppdaterat import
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Controller
 public class ProductController {
 
     @Autowired
     private ProductRepository productRepository;
+
+    private final ProductService productService;
+    private final CartService cartService;
+
+    @Autowired
+    public ProductController(ProductService productService, CartService cartService) {
+        this.productService = productService;
+        this.cartService = cartService; // Använd beroendeinjektion för att injicera CartService
+    }
+
 
 
     @GetMapping("/products")
@@ -73,4 +87,39 @@ public class ProductController {
 
         return randomProducts;
     }
+
+    @PostMapping("/addToCart/{productId}")
+    public ResponseEntity<Map<String, Object>> addToCart(@PathVariable("productId") String productId, HttpServletRequest request) {
+        // Hämta IP-adressen för den aktuella användaren
+        String ipAddress = request.getRemoteAddr();
+        Cart cart = cartService.getCartByIpAddress(ipAddress);
+
+        // Skapa en ny kundvagn om det inte finns någon för den aktuella IP-adressen
+        if (cart == null) {
+            cart = new Cart();
+            cart.setIpAddress(ipAddress);
+        }
+
+        // Hämta produkten baserat på det angivna produkt-ID:t
+        Product product = productService.getProductById(productId);
+        if (product == null) {
+            return ResponseEntity.badRequest().body(Collections.singletonMap("message", "Product not found"));
+        }
+
+        // Lägg till produkten i kundvagnen
+        cart.getProductList().add(product);
+        cart.setTotalPrice(cart.getTotalPrice() + product.getPrice());
+        cart.setNumberOfProducts(cart.getNumberOfProducts() + 1);
+
+        // Spara eller uppdatera kundvagnen
+        cartService.saveOrUpdateCart(cart);
+
+        // Skicka ett svar till klienten
+        Map<String, Object> jsonResponse = new HashMap<>();
+        jsonResponse.put("message", "Product added to cart successfully");
+        jsonResponse.put("ipAddress", ipAddress);
+
+        return ResponseEntity.ok(jsonResponse);
+    }
+
 }
