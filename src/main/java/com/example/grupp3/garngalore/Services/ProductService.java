@@ -70,4 +70,6 @@ public class ProductService {
             throw new MongoException("Produkt med ID " + id + " hittades inte.");
         }
     }
+
+
 }
