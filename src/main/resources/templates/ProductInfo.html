@@ -13,68 +13,69 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="../../../../../startbootstrap-shop-homepage-gh-pages/css/styles.css" rel="stylesheet" />
     <style>
-        /* Custom styles to match the design of index.html */
-        body {
-            background-color: #f8f9fa;
-        }
-
         .logo-img {
-            width: 50px;
             height: auto;
+            width: 15%;
+            /* Procentuell storlek för att göra den responsiv */
+            position: absolute;
+            /* Placera bilden framför navigationsmenyn */
+            top: 15px;
+            /* Justera vertikal position */
+            left: 15px;
+            /* Justera horisontell position */
         }
 
-        /* Add any additional custom styles here */
+        .navbar-brand {
+            padding-left: 12%;
+            /* Öka vänstermarginalen för navigationsmärket för att undvika att den täcker bilden */
+        }
+
+        @media (max-width: 992px) {
+            .logo-img {
+                width: 30%;
+            }
+
+            .navbar-brand {
+                padding-left: 40%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo-img {
+                width: 40%;
+            }
+
+            .navbar-brand {
+                padding-left: 50%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo-img {
+                width: 50%;
+            }
+
+            .navbar-brand {
+                padding-left: 60%;
+            }
+        }
     </style>
 </head>
 
 <body>
+
 <!-- Navigation-->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="#!">Garn Galore</a>
-        <img src="../../../../../startbootstrap-shop-homepage-gh-pages/assets/favicon.ico" class="logo-img" alt="Logo">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <!--Länkar mellan sidorna-->
-                <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/index}">Hem</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/products}">Produkter</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/info}">Info</a></li>
-                <!-- Mer dropdown -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMore" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mer</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMore">
-                        <li><a class="dropdown-item" th:href="@{/registerUser}">Registrera användare</a></li>
-                        <li><a class="dropdown-item" th:href="@{/customerService}">Kundtjänst</a></li>
-                    </ul>
-                </li>
-            </ul>
+<div th:replace="NavBar.html"></div>
 
-            <!-- Logga in knapp -->
-            <a th:href="@{/login}" class="btn btn-outline-dark me-3">
-                Logga in
-            </a>
-
-            <!-- Sökfunktion -->
-            <form class="search-form d-flex me-3" th:action="@{/products}" method="get">
-                <input class="form-control search-input me-2" type="search" placeholder="Sök" aria-label="Search" name="keyword">
-                <button class="btn btn-outline-dark" type="submit">Sök</button>
-            </form>
-
-            <!-- Min sida länk -->
-            <form class="d-flex">
-                <a th:href="@{/myPage}" class="btn btn-outline-dark me-3">
-                    Min sida
-                </a>
-                <a th:href="@{/cart/{userId}.html}" class="btn btn-outline-dark">
-                    <i class="bi-cart-fill me-1"></i>
-                    Kundvagn
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                </a>
-            </form>
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Garn Galore</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Trasselfritt garn och kreativa knutar hos GarnGalore AB.</p>
         </div>
     </div>
-</nav>
+</header>
 
 <!-- Product Information Section -->
 <div class="container my-5">
@@ -86,11 +87,11 @@
                 <div class="card-body">
                     <h5 class="card-title" th:text="${product.name}">Product Name</h5>
                     <p class="card-text">
-                        <strong>Price:</strong> <span th:text="${'$' + product.price}">Price</span><br>
-                        <strong>Description:</strong> <span th:text="${product.description}">Description</span><br>
-                        <strong>Category:</strong> <span th:text="${product.category}">Category</span><br>
-                        <strong>Quantity:</strong> <span th:text="${product.quantity}">Quantity</span><br>
-                        <strong>Color:</strong> <span th:text="${product.color}">Color</span>
+                        <strong>Pris:</strong> <span th:text="${product.price} + ' kr'">Price</span><br>
+                        <strong>Beskrivning:</strong> <span th:text="${product.description}">Description</span><br>
+                        <strong>Kategori:</strong> <span th:text="${product.category}">Category</span><br>
+                        <strong>Lager:</strong> <span th:text="${product.quantity}">Quantity</span><br>
+                        <strong>Färg:</strong> <span th:text="${product.color}">Color</span>
 <!--                        <strong>Id:</strong> <span th:text="${product.id}">Id</span>-->
 
                         <strong>Id:</strong> <span th:text="${product.id}" id="productId">Id</span>

@@ -105,55 +105,17 @@
 <body>
 
 <!-- Navigation-->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="#!">Garn Galore</a>
-        <img src="../../../../../startbootstrap-shop-homepage-gh-pages/assets/favicon.ico" class="logo-img"
-             alt="Logo">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
-                class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link" href="index.html">Hem</a></li>
-                <li class="nav-item"><a class="nav-link" href="AllProductsPage.html">Produkter</a></li>
-                <li class="nav-item"><a class="nav-link" href="InfoPage.html">Info</a></li>
-                <!-- Mer dropdown -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMore" href="#" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">Mer</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMore">
-                        <li><a class="dropdown-item" href="RegisterPage.html">Registrera användare</a></li>
-                        <li><a class="dropdown-item" href="KundtjänstPage.html">Kundtjänst</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <!-- Logga in knapp -->
-            <form class="d-flex me-3">
-                <button class="btn btn-outline-dark" type="submit">
-                    Logga in
-                </button>
-            </form>
-            <!-- Sökfunktion -->
-            <form class="search-form d-flex me-3" th:action="@{/products}" method="get">
-                <input class="form-control search-input me-2" type="search" placeholder="Sök" aria-label="Search" name="keyword">
-                <button class="btn btn-outline-dark" type="submit">Sök</button>
-            </form>
+<div th:replace="NavBar.html"></div>
 
-            <!-- Min sida länk -->
-            <form class="d-flex">
-                <a href="#!" class="btn btn-outline-dark me-3">
-                    Min sida
-                </a>
-                <button class="btn btn-outline-dark" type="submit">
-                    <i class="bi-cart-fill me-1"></i>
-                    Kundvagn
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                </button>
-            </form>
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Garn Galore</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Trasselfritt garn och kreativa knutar hos GarnGalore AB.</p>
         </div>
     </div>
-</nav>
+</header>
 
 <!-- Här lägger du in ditt innehåll -->
 <!-- Lägg in innehållet här -->
