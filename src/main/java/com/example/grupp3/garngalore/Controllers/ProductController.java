@@ -57,7 +57,7 @@ public class ProductController {
         model.addAttribute("product", product);
         return "productInfo";
     }
-    @GetMapping("/index")
+    @GetMapping("/")
     public String showIndex(Model model) {
         // Hämta alla produkter från databasen
         List<Product> allProducts = productRepository.findAll();
