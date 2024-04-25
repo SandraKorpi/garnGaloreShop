@@ -92,6 +92,17 @@
                         <strong>Category:</strong> <span th:text="${product.category}">Category</span><br>
                         <strong>Quantity:</strong> <span th:text="${product.quantity}">Quantity</span><br>
                         <strong>Color:</strong> <span th:text="${product.color}">Color</span>
+<!--                        <strong>Id:</strong> <span th:text="${product.id}">Id</span>-->
+
+                        <strong>Id:</strong> <span th:text="${product.id}" id="productId">Id</span>
+                        <button id="addToCartBtn">Lägg i kundvagn</button>
+<!--                        <button id="addToCartBtn">Lägg i kundvagn</button>-->
+<!--                        <a th:href="@{/cart}">handla</a>-->
+<!--                        <button id="addToCartBtn" onclick="addToCart()">Lägg i kundvagn</button>-->
+<!--                        <a th:href="@{/product/{id}(id=${product.id})}">View Product</a>-->
+<!--                        <a href="#" class="buyNowLink" data-productId="${product.id}">handla nu!</a>-->
+
+
                     </p>
                 </div>
             </div>
@@ -101,6 +112,38 @@
 
 <!-- Bootstrap JS and dependencies -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+
+    document.getElementById("addToCartBtn").addEventListener("click", function() {
+        var productId = document.getElementById("productId").textContent;
+        console.log("Product ID:", productId);
+        // Här kan du göra vad du vill med productId, som att skicka det till servern för behandling
+    });
+
+
+    document.getElementById("addToCartBtn").addEventListener("click", function() {
+        var productId = document.getElementById("productId").textContent;
+        fetch('/addToCart/' + productId, {
+            method: 'POST'
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json(); // returnera svar från servern som JSON
+            })
+            .then(data => {
+                // Hantera svaret från servern, kanske vidarebefordra användaren till kundvagnen
+                // window.location.href = "/cart";
+                const ipAddress = data.ipAddress; // Antag att servern returnerar IP-adressen i JSON-svaret
+                window.location.href = "/cart/" + ipAddress; // Lägg till IP-adressen i URL:en
+            })
+            .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+            });
+    });
+
+</script>
 </body>
 
 </html>
