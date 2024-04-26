@@ -27,4 +27,8 @@ public class Order {
     private double withShipping;
 
     private int numberOfProducts;
+
+    public void setProducts(List<Product> productList) {
+        this.productList = productList;
+    }
 }
