@@ -126,11 +126,15 @@
     <div class="form-container">
         <div class="form-wrapper">
             <h1>Registrera användare</h1>
-            <!-- Felmeddelande för redan existerande e-postadress -->
+            <!-- Nytt felmeddelande för redan existerande e-postadress -->
             <div th:if="${error}" class="alert alert-danger" role="alert">
                 <span th:text="${error}"></span>
             </div>
-            <form action="#" th:action="@{/saveUser}" th:object="${user}" method="post">
+            <!-- Nytt meddelande för lyckad registrering -->
+            <div th:if="${success}" class="alert alert-success" role="alert">
+                <span th:text="${success}"></span>
+            </div>
+            <form action="/registerUser" th:action="@{/registerUser}" th:object="${user}" method="post">
                 <label for="firstName">Förnamn:*</label>
                 <input type="text" id="firstName" name="firstName" required />
                 <!-- Textinmatningsfält för förnamn -->
