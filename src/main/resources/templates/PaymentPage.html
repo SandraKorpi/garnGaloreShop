@@ -105,66 +105,48 @@
 <body>
 
 <!-- Navigation-->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="#!">Garn Galore</a>
-        <img src="../../../../../startbootstrap-shop-homepage-gh-pages/assets/favicon.ico" class="logo-img" alt="Logo">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link" href="index.html">Hem</a></li>
-                <li class="nav-item"><a class="nav-link" href="AllProductsPage.html">Produkter</a></li>
-                <li class="nav-item"><a class="nav-link" href="InfoPage.html">Info</a></li>
-                <!-- Mer dropdown -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMore" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mer</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMore">
-                        <li><a class="dropdown-item" href="RegisterPage.html">Registrera användare</a></li>
-                        <li><a class="dropdown-item" href="KundtjänstPage.html">Kundtjänst</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <!-- Logga in knapp -->
-            <form class="d-flex me-3">
-                <a href="login.html" class="btn btn-outline-dark" type="submit">
-                    Logga in
-                </a>
-            </form>
-            <!-- Sökfunktion -->
-            <form class="search-form d-flex me-3" th:action="@{/products}" method="get">
-                <input class="form-control search-input me-2" type="search" placeholder="Sök" aria-label="Search" name="keyword">
-                <button class="btn btn-outline-dark" type="submit">Sök</button>
-            </form>
-
-            <!-- Min sida länk -->
-            <form class="d-flex">
-                <a href="MinSidaPage.html" class="btn btn-outline-dark me-3">
-                    Min sida
-                </a>
-                <button class="btn btn-outline-dark" type="submit">
-                    <i class="bi-cart-fill me-1"></i>
-                    Kundvagn
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                </button>
-            </form>
-        </div>
-    </div>
-</nav>
+<div th:replace="NavBar.html"></div>
 
 <!--innehåll -->
 
-<div class="container px-4 px-lg-5">
-    <div class="row gx-4 gx-lg-5 align-items-center my-5">
-        <div class="col-lg-5">
-            <h1 class="font-weight-light">Totalt att betala: ${cart.totalPrice}</h1>
-            <h3>Välj betalsätt: </h3>
-            <p>Swish</p>
-            <p>Kontokort</p>
-            <p>Betala med hantverk</p>
-            <button onClick="pay('${cart.userId}')">Betala</button>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Lägg beställning</h5>
+                    <p class="card-text">
+                        <strong>Antal varor: </strong> <span th:text="${cart.numberOfProducts}">Number</span><br>
+
+                        <strong>Totalt pris:</strong> <span th:text="${cart.getTotalPrice()} + ' kr'">TotalPrice</span>
+                    <h3>Välj betalsätt: </h3>
+
+                    <form id="placeOrderForm1" action="/placeOrder" method="post">
+                        <input type="hidden" name="paymentMethod" value="Swish">
+                        <button type="submit" class="btn btn-dark btn-sm w-100">Betala med Swish</button>
+                    </form>
+                    <hr>
+
+                    <form id="placeOrderForm2" action="/placeOrder" method="post">
+                        <input type="hidden" name="paymentMethod" value="Kontokort">
+                        <button type="submit" class="btn btn-dark btn-sm w-100">Betala med Kontokort</button>
+                    </form>
+                    <hr>
+
+                    <form id="placeOrderForm3" action="/placeOrder" method="post">
+                        <input type="hidden" name="paymentMethod" value="Hantverk">
+                        <button type="submit" class="btn btn-dark btn-sm w-100">Betala med Hantverk</button>
+                    </form>
+                </div>
+                </p>
+
+
+            </div>
         </div>
     </div>
 </div>
+</div>
+
 
 <!-- Footer-->
 <footer class="py-5 bg-dark">
@@ -175,19 +157,7 @@
 <!-- Core theme JS-->
 <script src="../../../../../startbootstrap-shop-homepage-gh-pages/js/scripts.js"></script>
 <script>
-    function pay(userId) {
-        fetch('/cart/' + userId + '/pay', {
-            method: 'POST'
-        }).then(response => {
-            if (response.ok) {
-                // Payment successful, redirect to confirmation page
-                window.location.href = '/confirmationPage';
-            } else {
-                // Handle payment failure
-                console.error('Could not complete payment');
-            }
-        });
-    }
+
 </script>
 
 </body>

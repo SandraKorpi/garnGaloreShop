@@ -155,11 +155,11 @@
                 </div>
 
                     <strong>Totalt pris:</strong> <span th:text="${cart.getTotalPrice()}  + ' kr'">TotalPrice</span>
-
-                    <div class="col-md-6 mb-3">
-                        <a class="btn btn-dark btn-sm w-100" th:href="@{/registerUser}">Gå till betalning</a>
+                    
+                    <div th:if="${not cart.getProductList().isEmpty()}" class="col-md-6 mb-3">
+                        <a class="btn btn-dark btn-sm w-100" th:href="@{/paymentPage}">Gå till betalning</a>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div th:if="${not cart.getProductList().isEmpty()}" class="col-md-6 mb-3">
                         <a class="btn btn-dark btn-sm w-100" id="clearCart" href="#">Töm kundvagnen</a>
                     </div>
                 </div>

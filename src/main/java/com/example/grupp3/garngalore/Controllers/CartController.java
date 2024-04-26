@@ -3,6 +3,7 @@ package com.example.grupp3.garngalore.Controllers;
 import com.example.grupp3.garngalore.Models.Cart;
 import com.example.grupp3.garngalore.Models.Order;
 import com.example.grupp3.garngalore.Models.Product;
+import com.example.grupp3.garngalore.Models.User;
 import com.example.grupp3.garngalore.Services.CartService;
 import com.example.grupp3.garngalore.Services.OrderService;
 import com.example.grupp3.garngalore.Services.ProductService;
@@ -20,11 +21,16 @@ import org.springframework.web.client.RestTemplate;
 public class CartController {
 
     private final CartService cartService;
+    private final OrderService orderService;
+
+    private final ProductService productService;
 
 
     @Autowired
-    public CartController(CartService cartService) {
+    public CartController(CartService cartService, OrderService orderService, ProductService productService) {
         this.cartService = cartService;
+        this.orderService = orderService;
+        this.productService = productService;
     }
 
     @GetMapping("/cart")
@@ -42,51 +48,76 @@ public class CartController {
         return "Cart";
     }
 
-//    @PostMapping("/cart/checkout")
-//    public String checkoutCart(HttpSession session) {
-//        // Retrieve the cart associated with the user's session
-//        Cart cart = (Cart) session.getAttribute("cart");
-//
-//        if (cart == null || cart.getNumberOfProducts() == 0) {
-//            // If there is no cart or the cart is empty, you can handle it here
-//            return "redirect:/cart";
-//        }
-//
-//        // Create an order based on the cart
-//        Order order = new Order(cart);
-//
-//        // Save the order to the database
-//        // orderService.saveOrder(order);
-//
-//        // Clear the cart after checkout
-//        cart.getProductList().clear();
-//        cart.setTotalPrice(0);
-//        cart.setNumberOfProducts(0);
-//
-//        // Save the updated cart back to the session
-//        session.setAttribute("cart", cart);
-//
-//        return "redirect:/orderConfirmation";
-//    }
-
     @PostMapping ("/cart/clearCart")
     public String clearCart(HttpSession session) {
-        // Retrieve the cart associated with the user's session
+        //Hämta kundvagnen som är kopplad till användarens session
         Cart cart = (Cart) session.getAttribute("cart");
 
         if (cart == null) {
-            // If there is no cart associated with the session, you can handle it here
+            //Om det inte finns någon kundvagn kopplad till sessionen, hantera det här
             return "redirect:/cart";
         }
 
-        // Clear the cart
+        // Clear kundvagnen
         cart.getProductList().clear();
         cart.setTotalPrice(0);
         cart.setNumberOfProducts(0);
 
-        // Save the updated cart back to the session
+        // Spara den uppdaterade kundvagnen till sessionen
         session.setAttribute("cart", cart);
 
         return "redirect:/cart";
+    }
+
+    @GetMapping("/paymentPage")
+    public String showPaymentPage(Model model, HttpSession session) {
+        // Hämta kundvagnen från sessionen
+        Cart cart = (Cart) session.getAttribute("cart");
+        // Om kundvagnen är null, skapa en ny
+        if (cart == null) {
+            cart = new Cart();
+            session.setAttribute("cart", cart);
+        }
+        // Lägg till kundvagnen i modellen
+        model.addAttribute("cart", cart);
+        return "PaymentPage";
+    }
+
+    @PostMapping("/placeOrder")
+    public String placeOrder(@RequestParam("paymentMethod") String paymentMethod, HttpSession session, Model model) {
+        //Hämta kundvagnen som är kopplad till användarens session
+        Cart cart = (Cart) session.getAttribute("cart");
+
+        if (cart == null) {
+            //Om det inte finns någon kundvagn kopplad till sessionen, hantera det här
+            return "redirect:/cart";
+        }
+
+        //skapa en ny order, baserat på kundvagnen
+        Order order = new Order();
+        order.setProducts(cart.getProductList());
+        order.setTotalPrice(cart.getTotalPrice());
+        orderService.saveOrder(order);
+
+        // Uppdatera lagersaldot för varje produkt i kundvagnen (inte klar metod)
+//        for (Product productInCart : cart.getProductList()) {
+//            int quantityOrdered = productInCart.getQuantity(); // Get quantity ordered
+//            productInCart.updateStock(quantityOrdered); // Update stock count using the method
+//            productService.updateProduct(product); // Save updated product
+//        }
+
+        // Töm kundvagnen
+        cart.getProductList().clear();
+        cart.setTotalPrice(0);
+        cart.setNumberOfProducts(0);
+
+        // Spara den uppdaterade kundvagnen till sessionen
+        session.setAttribute("cart", cart);
+
+        // Skicka orderobjektet till confirmationPage
+        model.addAttribute("order", order);
+
+        // Visa bekräftelsesidan
+        return "ConfirmationPage";
     }
 }
