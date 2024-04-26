@@ -26,6 +26,7 @@ public class UserController {
     private UserRepository userRepository;
 
     // Metod för att visa formulärsidan
+    // Metod för att visa formulärsidan
     @GetMapping("/registerUser")
     public String showUserForm(Model model) {
         model.addAttribute("user", new User());
@@ -33,7 +34,7 @@ public class UserController {
     }
 
     // Metod för att hantera inkommande POST-begäranden från formuläret
-    @PostMapping("/saveUser")
+    @PostMapping("/registerUser")
     public String saveUser(User user, Model model) {
         // Kontrollera om e-postadressen redan finns i databasen
         User existingUser = userRepository.findByEmail(user.getEmail());
@@ -46,13 +47,17 @@ public class UserController {
         // Sparar användaren om e-postadressen inte finns redan
         userRepository.save(user);
 
-        return "redirect:/RegisterUser";
+        // Meddelande för lyckad registrering
+        model.addAttribute("success", "Ditt konto hos Garn Galore är nu skapat.");
+
+        // Returnera samma vy för registrering
+        return "RegisterPage";
     }
 
-        // Metod för att visa formulärsidan för inloggning
-        @GetMapping("/logIn")
-        public String showLoginForm (Model model){
-            model.addAttribute("user", new User());
-            return "LogInPage"; // Namnet på ditt inloggnings-HTML-templaten
-        }
+    // Metod för att visa formulärsidan för inloggning
+    @GetMapping("/logIn")
+    public String showLoginForm(Model model) {
+        model.addAttribute("user", new User());
+        return "LogInPage"; // Namnet på ditt inloggnings-HTML-templaten
     }
+}
