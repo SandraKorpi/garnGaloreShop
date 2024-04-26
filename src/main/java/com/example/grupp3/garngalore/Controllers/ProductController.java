@@ -6,6 +6,7 @@ import com.example.grupp3.garngalore.Repositories.ProductRepository;
 import com.example.grupp3.garngalore.Services.CartService;
 import com.example.grupp3.garngalore.Services.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -104,39 +105,32 @@ public class ProductController {
         return randomProducts;
     }
 
-
     @PostMapping("/addToCart/{productId}")
-    public ResponseEntity<Map<String, Object>> addToCart(@PathVariable("productId") String productId, HttpServletRequest request) {
-        // Hämta IP-adressen för den aktuella användaren
-        String ipAddress = request.getRemoteAddr();
-        Cart cart = cartService.getCartByIpAddress(ipAddress);
-
-        // Skapa en ny kundvagn om det inte finns någon för den aktuella IP-adressen
+    public ResponseEntity<Map<String, Object>> addToCart(@PathVariable("productId") String productId, HttpSession session) {
+        //Hämta en kundvagn associerad på användarens session
+        Cart cart = (Cart) session.getAttribute("cart");
         if (cart == null) {
             cart = new Cart();
-            cart.setIpAddress(ipAddress);
+            session.setAttribute("cart", cart);
         }
 
-        // Hämta produkten baserat på det angivna produkt-ID:t
+        //Hämta produkten baserat på det angivna produkt-ID:t
         Product product = productService.getProductById(productId);
         if (product == null) {
             return ResponseEntity.badRequest().body(Collections.singletonMap("message", "Product not found"));
         }
 
-        // Lägg till produkten i kundvagnen
+        //Lägg till produkten i kundvagnen
         cart.getProductList().add(product);
         cart.setTotalPrice(cart.getTotalPrice() + product.getPrice());
         cart.setNumberOfProducts(cart.getNumberOfProducts() + 1);
 
-        // Spara eller uppdatera kundvagnen
-        cartService.saveOrUpdateCart(cart);
+        //Att spara eller uppdatera kundvagnen brukar inte behövas för sessionbaserade kundvagnar
 
-        // Skicka ett svar till klienten
+        //Skicka ett svar till klienten
         Map<String, Object> jsonResponse = new HashMap<>();
         jsonResponse.put("message", "Product added to cart successfully");
-        jsonResponse.put("ipAddress", ipAddress);
 
         return ResponseEntity.ok(jsonResponse);
     }
-
 }
