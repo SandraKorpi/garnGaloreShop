@@ -44,7 +44,12 @@ public class UserService {
         }
     }
 
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();
     }
 }
+

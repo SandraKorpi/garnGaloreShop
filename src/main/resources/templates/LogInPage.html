@@ -59,46 +59,14 @@
             cursor: pointer;
         }
 
-        .logo-img {
-            height: auto;
-            width: 15%; /* Procentuell storlek för att göra den responsiv */
-            position: absolute; /* Placera bilden framför navigationsmenyn */
-            top: 15px; /* Justera vertikal position */
-            left: 15px; /* Justera horisontell position */
+        .error-message {
+            color: red;
+            margin-top: 10px;
         }
 
-        .navbar-brand {
-            padding-left: 12%; /* Öka vänstermarginalen för navigationsmärket för att undvika att den täcker bilden */
-        }
-
-        @media (max-width: 992px) {
-            .logo-img {
-                width: 30%;
-            }
-
-            .navbar-brand {
-                padding-left: 40%;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .logo-img {
-                width: 40%;
-            }
-
-            .navbar-brand {
-                padding-left: 50%;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .logo-img {
-                width: 50%;
-            }
-
-            .navbar-brand {
-                padding-left: 60%;
-            }
+        .success-message {
+            color: green;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -106,47 +74,7 @@
 
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="#!">Garn Galore</a>
-        <img src="../../../../../startbootstrap-shop-homepage-gh-pages/assets/favicon.ico" class="logo-img" alt="Logo">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Hem</a></li>
-                <li class="nav-item"><a class="nav-link" href="AllProductsPage.html">Produkter</a></li>
-                <li class="nav-item"><a class="nav-link" href="InfoPage.html">Info</a></li>
-                <!-- Mer dropdown -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMore" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mer</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMore">
-                        <li><a class="dropdown-item" href="RegisterPage.html">Registrera användare</a></li>
-                        <li><a class="dropdown-item" href="KundtjänstPage.html">Kundtjänst</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <!-- Logga in knapp -->
-            <a href="login.html" class="btn btn-outline-dark active me-3">
-                Logga in
-            </a>
-            <!-- Sökfunktion -->
-            <form class="search-form d-flex me-3" th:action="@{/products}" method="get">
-                <input class="form-control search-input me-2" type="search" placeholder="Sök" aria-label="Search" name="keyword">
-                <button class="btn btn-outline-dark" type="submit">Sök</button>
-            </form>
-
-            <!-- Min sida länk -->
-            <form class="d-flex">
-                <a href="MinSidaPage.html" class="btn btn-outline-dark me-3">
-                    Min sida
-                </a>
-                <button class="btn btn-outline-dark" type="submit">
-                    <i class="bi-cart-fill me-1"></i>
-                    Kundvagn
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                </button>
-            </form>
-        </div>
-    </div>
+    <!-- Your navigation code here -->
 </nav>
 
 <!-- Formulär -->
@@ -154,7 +82,7 @@
     <div class="form-container">
         <div class="form-wrapper">
             <h1>Logga in</h1>
-            <form action="#" th:action="@{/saveUser}" th:object="${user}" method="post">
+            <form action="#" th:action="@{/login}" method="post">
                 <label for="email">E-post:*</label>
                 <input type="email" id="email" name="email" required />
                 <!-- Textinmatningsfält för e-postadress -->
@@ -169,10 +97,11 @@
 
                 <button type="submit">Logga in</button>
             </form>
+            <div th:if="${error}" class="error-message" th:text="${error}"></div>
+            <div th:if="${success}" class="success-message" th:text="${success}"></div>
         </div>
     </div>
 </section>
-
 
 <!-- Footer-->
 <footer class="py-5 bg-dark">
