@@ -8,7 +8,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <!--Länkar mellan sidorna-->
-                <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/index}">Hem</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/}">Hem</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/products}">Produkter</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/info}">Info</a></li>
                 <!-- Mer dropdown -->
@@ -28,7 +28,7 @@
             </a>
 
             <!-- Sökfunktion -->
-            <form class="search-form d-flex me-3" th:action="@{/products}" method="get">
+            <form class="search-form d-flex me-3" th:action="@{/search}" method="get">
                 <input class="form-control search-input me-2" type="search" placeholder="Sök" aria-label="Search"
                        name="keyword">
                 <button class="btn btn-outline-dark" type="submit">Sök</button>

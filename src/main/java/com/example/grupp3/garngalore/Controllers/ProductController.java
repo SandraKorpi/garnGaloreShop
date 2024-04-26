@@ -34,7 +34,7 @@ public class ProductController {
 
 
 
-    @GetMapping("/products")
+    @GetMapping("/search")
     public String listProducts(Model model, @RequestParam(required = false) String keyword) {
         List<Product> products;
 
@@ -50,6 +50,14 @@ public class ProductController {
         model.addAttribute("products", products);
         //Visar resultatsidan.
         return "ShowSearchPage";
+    }
+    @GetMapping("/products")
+    public String listAllProducts(Model model) {
+        List<Product> products = productRepository.findAll();
+
+        model.addAttribute("products", products);
+        //Visar resultatsidan.
+        return "AllProductsPage";
     }
     @GetMapping("/product/{id}")
     public String showProduct(@PathVariable String id, Model model) {
@@ -73,20 +81,29 @@ public class ProductController {
 
     // Metod för att hämta ett slumpmässigt antal produkter från en lista
     private List<Product> getRandomProducts(List<Product> productList, int count) {
-        Random random = new Random();
-        int listSize = productList.size();
-
-        // Skapa en lista för att lagra slumpmässiga produkter
         List<Product> randomProducts = new ArrayList<>();
 
-        // Hämta slumpmässiga produkter från listan baserat på det angivna antalet
-        for (int i = 0; i < count; i++) {
-            int randomIndex = random.nextInt(listSize);
-            randomProducts.add(productList.get(randomIndex));
+        // Skapa en kopia av produktlistan för att undvika att ändra original listan
+        List<Product> copyOfProductList = new ArrayList<>(productList);
+
+        // Skapa en instans av Random
+        Random random = new Random();
+
+        // Begränsa antalet produkter att välja från om listan är mindre än count
+        int maxIndex = Math.min(count, copyOfProductList.size());
+
+        // Hämta slumpmässiga och unika produkter från listan
+        for (int i = 0; i < maxIndex; i++) {
+            // Generera ett slumpmässigt index inom det återstående intervallet av produkter
+            int randomIndex = random.nextInt(copyOfProductList.size());
+
+            // Hämta produkten vid det slumpmässiga indexet och lägg till den i randomProducts
+            randomProducts.add(copyOfProductList.remove(randomIndex));
         }
 
         return randomProducts;
     }
+
 
     @PostMapping("/addToCart/{productId}")
     public ResponseEntity<Map<String, Object>> addToCart(@PathVariable("productId") String productId, HttpServletRequest request) {
