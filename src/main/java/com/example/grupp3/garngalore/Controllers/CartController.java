@@ -14,103 +14,40 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 @Controller
-@RequestMapping("/cart")
+//@RequestMapping("/cart")
 public class CartController {
 
     private final CartService cartService;
-    private final RestTemplate restTemplate;
-    private final OrderService orderService;
-    private final ProductService productService;
+//    private final ProductService productService;
 
 
     @Autowired
-    public CartController(CartService cartService, RestTemplate restTemplate, OrderService orderService, ProductService productService ) {
+    public CartController(CartService cartService) {
         this.cartService = cartService;
-//        this.restTemplate = new RestTemplate();
-        this.restTemplate = restTemplate;
-        this.orderService = orderService;
-        this.productService = productService;
+//        this.productService = new ProductService();
     }
 
-    @PostMapping("/{userId}/addProduct")
-    public ResponseEntity<String> addProductToCart(@PathVariable String userId, @RequestBody Product product) {
-        cartService.addProductToCart(userId, product);
-        return ResponseEntity.ok("Product added to cart successfully");
-    }
+//    @GetMapping("/cart")
+//    public String showCartPage(Model model) {
+//        model.addAttribute("cart", new Cart());
+//        return "Cart";
+//    }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<Cart> getCartByUserId(@PathVariable String userId) {
-        Cart cart = cartService.getCartByUserId(userId);
-        return ResponseEntity.ok(cart);
-    }
+    @GetMapping("/cart/{ipAddress}")
+    public String showCartPageForIpAddress(@PathVariable("ipAddress") String ipAddress, Model model) {
+        // Hämta kundvagnen baserat på IP-adressen
+        Cart cart = cartService.getCartByIpAddress(ipAddress);
 
-    @DeleteMapping("/{userId}/removeProduct/{productId}")
-    public ResponseEntity<String> removeProductFromCart(@PathVariable String userId, @PathVariable String productId) {
-        cartService.removeProductFromCart(userId, productId);
-        return ResponseEntity.ok("Product removed from cart successfully");
-    }
-
-    @PutMapping("/{userId}/updateProductQuantity/{productId}")
-    public ResponseEntity<String> updateProductQuantity(@PathVariable String userId, @PathVariable String productId, @RequestParam int quantity) {
-        cartService.updateProductQuantity(userId, productId, quantity);
-        return ResponseEntity.ok("Product quantity updated successfully");
-    }
-
-    @DeleteMapping("/{userId}/clear")
-    public ResponseEntity<String> clearCart(@PathVariable String userId) {
-        cartService.clearCart(userId);
-        return ResponseEntity.ok("Cart cleared successfully");
-    }
-
-
-
-    //WEBKONTROLL FÖR CART
-
-    //This method is called when the user navigates to /cart/{userId} in the browser
-    //The userId is passed as a path variable
-    //The method fetches the cart for the user with the given userId from the database
-    @GetMapping("/{userId}.html") //Lagt dit .html för att inte ha två av samma.
-    public String getCartByUserId(@PathVariable String userId, Model model) {
-        Cart cart = cartService.getCartByUserId(userId);
-        model.addAttribute("cart", cart);
-        return "ShowCartPage"; //The name of the HTML file to be rendered
-    }
-
-    //This method is called when the user clicks pay in the browser
-    @PostMapping("/{userId}/pay")
-    public ResponseEntity<String> payForCart(@PathVariable String userId) {
-        //Skapa en order från varukorgen
-        Order order = createOrderFromCart(userId);
-
-        //Spara ordern i databasen
-        orderService.createOrder(order);
-
-        // Uppdatera produktkvantiteter
-        updateProductQuantities(userId);
-
-        // Rensa varukorgen
-        cartService.clearCart(userId);
-
-        return ResponseEntity.ok("Payment successful");
-    }
-
-    //This method calls the productService to update the quantity of each product in the inventory
-    private void updateProductQuantities(String userId) {
-        Cart cart = cartService.getCartByUserId(userId);
-        for (Product product : cart.getProductList()) {
-            productService.updateProductQuantity(product.getId(), product.getQuantity());
+        if (cart == null) {
+            // Om det inte finns någon kundvagn för den angivna IP-adressen, kan du hantera det här
+            model.addAttribute("message", "No cart found for the given IP address");
+        } else {
+            // Om kundvagnen finns, skicka den till vyn för att visa informationen
+            model.addAttribute("cart", cart);
         }
+
+        return "Cart";
     }
 
-    //This method creates an order from the cart
-    private Order createOrderFromCart(String userId) {
-        Cart cart = cartService.getCartByUserId(userId);
-        Order order = new Order();
-        order.setUserID(userId);
-        order.setProductList(cart.getProductList());
-        order.setTotalPrice(cart.getTotalPrice());
-        order.setWithShipping(cart.getWithShipping());
-        order.setNumberOfProducts(cart.getNumberOfProducts());
-        return order;
-    }
+
 }

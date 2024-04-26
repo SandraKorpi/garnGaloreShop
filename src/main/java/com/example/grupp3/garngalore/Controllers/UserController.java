@@ -26,7 +26,7 @@ public class UserController {
     private UserRepository userRepository;
 
     // Metod för att visa formulärsidan
-    @GetMapping("/RegisterUser")
+    @GetMapping("/registerUser")
     public String showUserForm(Model model) {
         model.addAttribute("user", new User());
         return "RegisterPage";
@@ -46,15 +46,11 @@ public class UserController {
         // Sparar användaren om e-postadressen inte finns redan
         userRepository.save(user);
 
-        // Skapa en kundvagn för användaren
-        Cart cart = new Cart(user.getId());
-        cartService.createCart(cart);
-
         return "redirect:/RegisterUser";
     }
 
         // Metod för att visa formulärsidan för inloggning
-        @GetMapping("/LogIn")
+        @GetMapping("/logIn")
         public String showLoginForm (Model model){
             model.addAttribute("user", new User());
             return "LogInPage"; // Namnet på ditt inloggnings-HTML-templaten
