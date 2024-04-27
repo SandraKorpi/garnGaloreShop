@@ -108,18 +108,23 @@ private UserRepository userRepository;
         return "redirect:/";
     }
 
-    // Metod för att visa startsidan
-   // @GetMapping("/home")
-   // public String index(Model model, HttpSession session) {
-        // Variabel för att kontrollera om användaren är inloggad, som börjar som falsk
-      //  boolean loggedIn = false;
-        // Försök att hämta användarens ID från sessionen som en sträng
-       // String loggedInUserId = (String) session.getAttribute("loggedInUserId");
-      //  if (loggedInUserId != null) {
-            // Om användarens ID finns i sessionen, sätt loggedIn till true
-        //    loggedIn = true;
+    @GetMapping("/myPage")
+    public String myPage(Model model, HttpSession session) {
+        // Hämta användar-ID från sessionen
+        String loggedInUserId = (String) session.getAttribute("loggedInUserId");
+
+        // Kontrollera om användaren är inloggad
+        if (loggedInUserId != null) {
+            // Hämta den inloggade användaren från databasen
+            User loggedInUser = userService.getUserById(loggedInUserId); // Anpassa detta beroende på din implementation
+
+            // Lägg till den inloggade användaren i modellen för att skicka till vyn
+            model.addAttribute("loggedInUser", loggedInUser);
+
+            // Returnera vyn för Min sida
+            return "MinSidaPage";
+        } else {
+            // Om användaren inte är inloggad, vidarebefordra till inloggningssidan eller visa ett felmeddelande
+            return "redirect:/login"; // Anpassa detta beroende på din implementation
         }
-        // Lägg till loggedIn-variabeln i modellen för att användas i vyn
-       // model.addAttribute("loggedIn", loggedIn);
-        // Returnera vyn för startsidan
-      //  return "index";
+    }}

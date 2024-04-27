@@ -16,11 +16,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: calc(100vh - 100px); /* Justera för att ta hänsyn till header och footer */
+            overflow-y: auto; /* Göra innehållet skrollbart */
+            padding: 20px;
         }
 
         .form-wrapper {
-            width: 400px;
+            width: 100%;
+            max-width: 600px;
             padding: 20px;
             border: 1px solid #ced4da;
             border-radius: 5px;
@@ -108,27 +111,19 @@
 <div th:replace="NavBar.html"></div>
 
 <!-- Här lägger du in ditt innehåll -->
-<div class="container mt-5 mb-5"> <!-- Lägg till mb-5 för att lägga till mellanrum nedåt -->
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card">
-                <div class="card-header">Min Sida</div>
-                <div class="card-body">
-                    <!-- Kontrollera om användaren är inloggad och visa information -->
-                    <div th:if="${loggedIn}">
-                        <h5 class="card-title">Din information</h5>
-                        <p class="card-text">E-post: <span th:text="${user.email}"></span></p>
-                        <p class="card-text">Förnamn: <span th:text="${user.firstName}"></span></p>
-                        <p class="card-text">Efternamn: <span th:text="${user.lastName}"></span></p>
-                        <p class="card-text">Adress: <span th:text="${user.address}"></span></p>
-                        <p class="card-text">Beskrivning: <span th:text="${user.description}"></span></p>
-                    </div>
-                    <!-- Om användaren inte är inloggad -->
-                    <div th:unless="${loggedIn}">
-                        <p>Du behöver logga in för att kunna se denna sida.</p>
-                    </div>
-                </div>
-            </div>
+<div class="form-container">
+    <div class="form-wrapper">
+        <div th:if="${loggedInUser != null}">git
+            <h5 class="card-title">Min sida</h5>
+
+            <p class="card-text">E-post: <span th:text="${loggedInUser.email}"></span></p>
+            <p class="card-text">Förnamn: <span th:text="${loggedInUser.firstName}"></span></p>
+            <p class="card-text">Efternamn: <span th:text="${loggedInUser.lastName}"></span></p>
+            <p class="card-text">Adress: <span th:text="${loggedInUser.address}"></span></p>
+            <p class="card-text">Beskrivning: <span th:text="${loggedInUser.description}"></span></p>
+        </div>
+        <div th:unless="${loggedInUser != null}">
+            <p>Du behöver logga in för att kunna se denna sida.</p>
         </div>
     </div>
 </div>
