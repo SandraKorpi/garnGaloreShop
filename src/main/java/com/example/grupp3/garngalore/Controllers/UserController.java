@@ -24,10 +24,40 @@ public class UserController {
     // En instans av UserService injiceras här för att hantera användarrelaterad logik
     private final UserService userService;
 
+@Autowired
+private UserRepository userRepository;
     // Konstruktör för att injicera UserService genom beroendeinjektion
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    // Metod för att visa formulärsidan
+    @GetMapping("/registerUser")
+    public String showUserForm(Model model) {
+        model.addAttribute("user", new User());
+        return "RegisterPage";
+    }
+
+    // Metod för att hantera inkommande POST-begäranden från formuläret
+    @PostMapping("/registerUser")
+    public String saveUser(User user, Model model) {
+        // Kontrollera om e-postadressen redan finns i databasen
+        User existingUser = userService.getUserByEmail(user.getEmail());
+        if (existingUser != null) {
+            // E-postadressen finns redan, visa felmeddelande
+            model.addAttribute("error", "E-postadressen finns redan i databasen. Vänligen välj en annan e-postadress.");
+            return "RegisterPage";
+        }
+
+        // Sparar användaren om e-postadressen inte finns redan
+        userRepository.save(user);
+
+        // Meddelande för lyckad registrering
+        model.addAttribute("success", "Ditt konto hos Garn Galore är nu skapat.");
+
+        // Returnera samma vy för registrering
+        return "RegisterPage";
     }
 
     // Metod för att visa inloggningsformuläret
@@ -65,7 +95,7 @@ public class UserController {
         System.out.println("Användare med ID " + existingUser.getId() + " loggades in.");
 
         // Omdirigera till startsidan efter inloggningen
-        return "redirect:/home";
+        return "redirect:/";
     }
 
     // Metod för att logga ut användaren
@@ -75,23 +105,21 @@ public class UserController {
         // Skriv ut i konsolen för att indikera att användaren har loggats ut
         System.out.println("Användaren har loggats ut.");
         // Omdirigera till startsidan efter utloggningen
-        return "redirect:/home";
+        return "redirect:/";
     }
 
     // Metod för att visa startsidan
-    @GetMapping("/home")
-    public String index(Model model, HttpSession session) {
+   // @GetMapping("/home")
+   // public String index(Model model, HttpSession session) {
         // Variabel för att kontrollera om användaren är inloggad, som börjar som falsk
-        boolean loggedIn = false;
+      //  boolean loggedIn = false;
         // Försök att hämta användarens ID från sessionen som en sträng
-        String loggedInUserId = (String) session.getAttribute("loggedInUserId");
-        if (loggedInUserId != null) {
+       // String loggedInUserId = (String) session.getAttribute("loggedInUserId");
+      //  if (loggedInUserId != null) {
             // Om användarens ID finns i sessionen, sätt loggedIn till true
-            loggedIn = true;
+        //    loggedIn = true;
         }
         // Lägg till loggedIn-variabeln i modellen för att användas i vyn
-        model.addAttribute("loggedIn", loggedIn);
+       // model.addAttribute("loggedIn", loggedIn);
         // Returnera vyn för startsidan
-        return "index";
-    }
-}
+      //  return "index";
