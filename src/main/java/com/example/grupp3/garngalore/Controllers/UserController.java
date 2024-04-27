@@ -16,33 +16,44 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+
 @Controller
 public class UserController {
 
+    // En instans av UserService injiceras här för att hantera användarrelaterad logik
     private final UserService userService;
 
+    // Konstruktör för att injicera UserService genom beroendeinjektion
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
+    // Metod för att visa inloggningsformuläret
     @GetMapping("/login")
     public String showLoginForm(Model model) {
+        // Lägg till ett tomt användarobjekt i modellen för formuläret
         model.addAttribute("user", new User());
+        // Returnera vyn för inloggningsformuläret
         return "LogInPage";
     }
 
+    // Metod för att hantera inloggning av användare
     @PostMapping("/login")
     public String loginUser(@RequestParam("email") String email,
                             @RequestParam("password") String password,
                             Model model,
                             HttpSession session) {
+        // Hämta användaren från databasen med hjälp av UserService
         User existingUser = userService.getUserByEmail(email);
+        // Om användaren inte finns, lägg till ett felmeddelande och visa inloggningsformuläret igen
         if (existingUser == null) {
             model.addAttribute("error", "E-postadressen finns inte i vår databas.");
             return "LogInPage";
         }
 
+        // Om lösenordet inte matchar, lägg till ett felmeddelande och visa inloggningsformuläret igen
         if (!existingUser.getPassword().equals(password)) {
             model.addAttribute("error", "Fel lösenord.");
             return "LogInPage";
@@ -50,28 +61,37 @@ public class UserController {
 
         // Lagra användarens ID i sessionen för att hålla dem inloggade
         session.setAttribute("loggedInUserId", existingUser.getId());
+        // Skriv ut i konsolen för att testa att inloggningen har lyckats
+        System.out.println("Användare med ID " + existingUser.getId() + " loggades in.");
 
-        // model.addAttribute("success", "Du är nu inloggad.");
-
+        // Omdirigera till startsidan efter inloggningen
         return "redirect:/home";
     }
 
+    // Metod för att logga ut användaren
     @GetMapping("/logout")
     public String logoutUser(HttpSession session) {
-        session.removeAttribute("loggedInUserId");
+        session.setAttribute("loggedInUserId", null);
+        // Skriv ut i konsolen för att indikera att användaren har loggats ut
+        System.out.println("Användaren har loggats ut.");
+        // Omdirigera till startsidan efter utloggningen
         return "redirect:/home";
     }
 
+    // Metod för att visa startsidan
     @GetMapping("/home")
     public String index(Model model, HttpSession session) {
+        // Variabel för att kontrollera om användaren är inloggad, som börjar som falsk
         boolean loggedIn = false;
-        try {
-            Integer loggedInUserId = Integer.parseInt((String) session.getAttribute("loggedInUserId"));
+        // Försök att hämta användarens ID från sessionen som en sträng
+        String loggedInUserId = (String) session.getAttribute("loggedInUserId");
+        if (loggedInUserId != null) {
+            // Om användarens ID finns i sessionen, sätt loggedIn till true
             loggedIn = true;
-        } catch (NumberFormatException | NullPointerException e) {
-            loggedIn = false;
         }
+        // Lägg till loggedIn-variabeln i modellen för att användas i vyn
         model.addAttribute("loggedIn", loggedIn);
-        return "/index"; // Byt ut "index" mot din faktiska startsida
+        // Returnera vyn för startsidan
+        return "index";
     }
 }

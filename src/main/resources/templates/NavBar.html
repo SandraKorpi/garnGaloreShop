@@ -24,23 +24,17 @@
             </ul>
 
             <!-- Visa "Logga in" eller "Logga ut" knapp beroende på användarens inloggningstillstånd -->
-            <div th:if="${loggedInUserId != null}">
+            <div th:if="${loggedIn}">
                 <!-- Logga ut knapp -->
                 <a th:href="@{/logout}" class="btn btn-outline-dark me-3">
                     Logga ut
                 </a>
             </div>
-            <div th:unless="${loggedInUserId != null}">
+            <div th:unless="${loggedIn}">
                 <!-- Logga in knapp -->
                 <a th:href="@{/login}" class="btn btn-outline-dark me-3">
                     Logga in
                 </a>
-            </div>
-
-            <!-- Visa användarens inloggningstillstånd -->
-            <div>
-                <span th:if="${loggedInUserId != null}">Inloggad</span>
-                <span th:unless="${loggedInUserId != null}">Utloggad</span>
             </div>
 
             <!-- Sökfunktion -->
