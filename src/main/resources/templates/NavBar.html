@@ -1,3 +1,4 @@
+<!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
         <a class="navbar-brand" href="#!">Garn Galore</a>
@@ -7,7 +8,7 @@
                 class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <!--Länkar mellan sidorna-->
+                <!-- Länkar mellan sidorna -->
                 <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/}">Hem</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/products}">Produkter</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/info}">Info</a></li>
@@ -22,10 +23,19 @@
                 </li>
             </ul>
 
-            <!-- Logga in knapp -->
-            <a th:href="@{/login}" class="btn btn-outline-dark me-3">
-                Logga in
-            </a>
+            <!-- Visa "Logga in" eller "Logga ut" knapp beroende på användarens inloggningstillstånd -->
+            <div th:if="${loggedIn}">
+                <!-- Logga ut knapp -->
+                <a th:href="@{/logout}" class="btn btn-outline-dark me-3">
+                    Logga ut
+                </a>
+            </div>
+            <div th:unless="${loggedIn}">
+                <!-- Logga in knapp -->
+                <a th:href="@{/login}" class="btn btn-outline-dark me-3">
+                    Logga in
+                </a>
+            </div>
 
             <!-- Sökfunktion -->
             <form class="search-form d-flex me-3" th:action="@{/search}" method="get">

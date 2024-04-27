@@ -22,6 +22,7 @@ public class User {
     private String lastName;
     private String address;
     private String description;
+    private transient boolean loggedIn; // Gör variabeln transient, alltså sparas inte i databasen pga förändras.
 
     public User(String email, String password, String firstName, String lastName, String address) {
         this.email = email;
