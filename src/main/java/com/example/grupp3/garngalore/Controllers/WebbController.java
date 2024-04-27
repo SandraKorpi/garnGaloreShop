@@ -14,8 +14,4 @@ public class WebbController {
     public String contact() {
         return "KundtjänstPage";
     }
-    @GetMapping("/myPage")
-    public String myPage() {
-        return "MinSidaPage";
-    }
 }
