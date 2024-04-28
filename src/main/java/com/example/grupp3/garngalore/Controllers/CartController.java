@@ -16,6 +16,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Controller
 //@RequestMapping("/cart")
 public class CartController {
@@ -48,6 +51,42 @@ public class CartController {
         return "Cart";
     }
 
+    @PostMapping("/startCartSession")
+    public ResponseEntity<Map<String, Object>> startCartSession(HttpSession session) {
+        // Initialize the cart session if not already initialized
+        Cart cart = (Cart) session.getAttribute("cart");
+        if (cart == null) {
+            cart = new Cart();
+            session.setAttribute("cart", cart);
+        }
+
+        // Send a response to the client
+        Map<String, Object> jsonResponse = new HashMap<>();
+        jsonResponse.put("message", "Cart session started successfully");
+
+        return ResponseEntity.ok(jsonResponse);
+    }
+
+    //för att visa antalet produkter i kundvagnen i navbaren
+    @GetMapping("/getCartItemCount")
+    public ResponseEntity<Map<String, Integer>> getCartItemCount(HttpSession session) {
+        // Retrieve the cart from session
+        Cart cart = (Cart) session.getAttribute("cart");
+
+        // Calculate the number of products in the cart
+        int itemCount = 0;
+        if (cart != null) {
+            itemCount = cart.getNumberOfProducts();
+        }
+
+        // Return the number of products in the cart
+        Map<String, Integer> response = new HashMap<>();
+        response.put("cartItemCount", itemCount);
+
+        return ResponseEntity.ok(response);
+    }
+
+    //För att tömma kundvagnen
     @PostMapping ("/cart/clearCart")
     public String clearCart(HttpSession session) {
         //Hämta kundvagnen som är kopplad till användarens session
@@ -69,6 +108,7 @@ public class CartController {
         return "redirect:/cart";
     }
 
+    //betalsidan
     @GetMapping("/paymentPage")
     public String showPaymentPage(Model model, HttpSession session) {
         // Hämta kundvagnen från sessionen
@@ -83,6 +123,7 @@ public class CartController {
         return "PaymentPage";
     }
 
+    //placera order
     @PostMapping("/placeOrder")
     public String placeOrder(@RequestParam("paymentMethod") String paymentMethod, HttpSession session, Model model) {
         //Hämta kundvagnen som är kopplad till användarens session
