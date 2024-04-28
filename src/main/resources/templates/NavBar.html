@@ -48,12 +48,77 @@
                 <a th:href="@{/myPage}" class="btn btn-outline-dark me-3">
                     Min sida
                 </a>
-                <a th:href="@{/cart/{userId}.html}" class="btn btn-outline-dark">
+                <a id="kundvagnBtn" class="btn btn-outline-dark">
                     <i class="bi-cart-fill me-1"></i>
                     Kundvagn
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                    <span id="cartItemCount" class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                 </a>
             </form>
         </div>
     </div>
+    <script>
+        //Gå till kundvagn
+        document.getElementById("kundvagnBtn").addEventListener("click", function () {
+            fetch('/startCartSession', {
+                method: 'POST'
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json(); // return JSON response from server
+                })
+                .then(data => {
+                    window.location.href = "/cart"; // Redirect to the cart page
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                });
+        });
+
+        //Uppdatera antalet produkter i kundvagnen
+        function updateCartItemCount() {
+            fetch('/getCartItemCount') // Anropar en endpoint på servern för att hämta antalet produkter i kundvagnen
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json(); // return JSON response from server
+                })
+                .then(data => {
+                    // Uppdatera antalet produkter i kundvagnen i HTML-elementet
+                    document.getElementById('cartItemCount').textContent = data.cartItemCount;
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                });
+        }
+
+        //Lyssna på klickhändelser för kundvagnsknappen och uppdatera antalet produkter i kundvagnen
+        document.getElementById("kundvagnBtn").addEventListener("click", function () {
+            fetch('/startCartSession', {
+                method: 'POST'
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json(); // return JSON response from server
+                })
+                .then(data => {
+                    // Uppdatera antalet produkter i kundvagnen efter att sessionen har startats
+                    updateCartItemCount();
+                    window.location.href = "/cart"; // Redirect to the cart page
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                });
+        });
+
+        // Uppdatera antalet produkter i kundvagnen när sidan laddas
+        document.addEventListener("DOMContentLoaded", function () {
+            updateCartItemCount();
+        });
+
+    </script>
 </nav>
