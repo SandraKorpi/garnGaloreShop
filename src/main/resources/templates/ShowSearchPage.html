@@ -98,8 +98,11 @@
                                 <div class="col-md-6 mb-3">
                                     <a th:href="@{'/product/' + ${product.id}}" class="btn btn-outline-dark btn-sm w-100">Visa produkt</a>
                                 </div>
+<!--                                <div class="col-md-6 mb-3">-->
+<!--                                    <a class="btn btn-dark btn-sm w-100" id="addToCartBtn" href="#">Lägg till i kundvagn</a>-->
+<!--                                </div>-->
                                 <div class="col-md-6 mb-3">
-                                    <a class="btn btn-dark btn-sm w-100" id="addToCartBtn" href="#">Lägg till i kundvagn</a>
+                                    <a class="btn btn-dark btn-sm w-100" id="addToCartBtn" href="#">Lägg i kundvagn</a>
                                 </div>
 
                             </div>
@@ -123,29 +126,31 @@
 <!-- Core theme JS-->
 <script src="../../../../../startbootstrap-shop-homepage-gh-pages/js/scripts.js"></script>
 <script>
-    document.getElementById("addToCartBtn").addEventListener("click", function () {
-        var productId = document.getElementById("productId").textContent;
-        console.log("Product ID är", productId);
-    });
+    function addToCartHandler(event) {
+        if (event.target && event.target.id === "addToCartBtn") {
+            var productId = event.target.closest('.card').querySelector("#productId").textContent;
+            console.log("Product ID:", productId);
 
-    document.getElementById("addToCartBtn").addEventListener("click", function () {
-        var productId = document.getElementById("productId").textContent;
-        fetch('/addToCart/' + productId, {
-            method: 'POST'
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json(); // return JSON response from server
+            fetch('/addToCart/' + productId, {
+                method: 'POST'
             })
-            .then(data => {
-                window.location.href = "/cart"; // Redirect to the cart page
-            })
-            .catch(error => {
-                console.error('There has been a problem with your fetch operation:', error);
-            });
-    });
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json(); // return JSON response from server
+                })
+                .then(data => {
+                    window.location.href = "/cart"; // Redirect to the cart page
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                });
+        }
+    }
+
+    // Register event listener on the parent element
+    document.addEventListener('click', addToCartHandler);
 </script>
 
 </body>
