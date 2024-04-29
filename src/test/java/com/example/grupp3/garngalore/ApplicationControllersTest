@@ -1,0 +1,88 @@
+package com.example.grupp3.garngalore;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.Mockito.*;
+
+import com.example.grupp3.garngalore.Controllers.ProductController;
+import com.example.grupp3.garngalore.Models.Product;
+import com.example.grupp3.garngalore.Services.ProductService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Arrays;
+import java.util.Collections;
+
+@WebMvcTest(ProductController.class)
+public class ProductControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private ProductService productService;
+
+    @Test
+    public void testListAllProducts_WithProducts() throws Exception {
+        when(productService.getAllProducts()).thenReturn(Arrays.asList(new Product(), new Product()));
+
+        mockMvc.perform(get("/products"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("products"))
+                .andExpect(view().name("AllProductsPage"));
+    }
+
+    @Test
+    public void testListAllProducts_NoProducts() throws Exception {
+        when(productService.getAllProducts()).thenReturn(Collections.emptyList());
+
+        mockMvc.perform(get("/products"))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("products", Collections.emptyList()))
+                .andExpect(view().name("AllProductsPage"));
+    }
+
+    @Test
+    public void testShowProduct_ProductExists() throws Exception {
+        Product product = new Product();
+        product.setId("1");
+        when(productService.getProductById("1")).thenReturn(product);
+
+        mockMvc.perform(get("/product/1"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("product"))
+                .andExpect(view().name("productInfo"));
+    }
+
+    @Test
+    public void testShowProduct_ProductNotFound() throws Exception {
+        when(productService.getProductById("999")).thenThrow(new RuntimeException("Produkt med ID 999 hittades inte."));
+
+        mockMvc.perform(get("/product/999"))
+                .andExpect(status().isNotFound()); // Förutsätter att kontrollern hanterar undantaget och returnerar 404
+    }
+
+    @Test
+    public void testSearchProducts_WithResults() throws Exception {
+        when(productService.searchProducts("yarn")).thenReturn(Arrays.asList(new Product()));
+
+        mockMvc.perform(get("/search").param("keyword", "yarn"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("products"))
+                .andExpect(view().name("ShowSearchPage"));
+    }
+
+    @Test
+    public void testSearchProducts_NoResults() throws Exception {
+        when(productService.searchProducts("nothing")).thenReturn(Collections.emptyList());
+
+        mockMvc.perform(get("/search").param("keyword", "nothing"))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("products", Collections.emptyList()))
+                .andExpect(view().name("ShowSearchPage"));
+    }
+}

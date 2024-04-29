@@ -1,0 +1,252 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ProductController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.grupp3.garngalore.Controllers</a>
+</div>
+
+<h1>Coverage Summary for Class: ProductController (com.example.grupp3.garngalore.Controllers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProductController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    14,3%
+  </span>
+  <span class="absValue">
+    (1/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    7,1%
+  </span>
+  <span class="absValue">
+    (3/42)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.grupp3.garngalore.Controllers;
+&nbsp;
+&nbsp;import com.example.grupp3.garngalore.Models.Cart;
+&nbsp;import com.example.grupp3.garngalore.Models.Product;
+&nbsp;import com.example.grupp3.garngalore.Repositories.ProductRepository;
+&nbsp;import com.example.grupp3.garngalore.Services.CartService;
+&nbsp;import com.example.grupp3.garngalore.Services.ProductService;
+&nbsp;import jakarta.servlet.http.HttpServletRequest;
+&nbsp;import jakarta.servlet.http.HttpSession;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.stereotype.Controller;
+&nbsp;import org.springframework.ui.Model; // Uppdaterat import
+&nbsp;import org.springframework.web.bind.annotation.GetMapping;
+&nbsp;import org.springframework.web.bind.annotation.PathVariable;
+&nbsp;import org.springframework.web.bind.annotation.PostMapping;
+&nbsp;import org.springframework.web.bind.annotation.RequestParam;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;@Controller
+&nbsp;public class ProductController {
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private ProductRepository productRepository;
+&nbsp;
+&nbsp;    private final ProductService productService;
+&nbsp;    private final CartService cartService;
+&nbsp;
+&nbsp;    @Autowired
+<b class="fc">&nbsp;    public ProductController(ProductService productService, CartService cartService) {</b>
+<b class="fc">&nbsp;        this.productService = productService;</b>
+<b class="fc">&nbsp;        this.cartService = cartService; // Använd beroendeinjektion för att injicera CartService</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    @GetMapping(&quot;/search&quot;)
+&nbsp;    public String listProducts(Model model, @RequestParam(required = false) String keyword) {
+&nbsp;        List&lt;Product&gt; products;
+&nbsp;
+<b class="nc">&nbsp;        if (keyword == null || keyword.isEmpty()) {</b>
+<b class="nc">&nbsp;            products = productRepository.findAll();</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            products = productRepository.findByNameContainingIgnoreCase(keyword);</b>
+<b class="nc">&nbsp;            products.addAll(productRepository.findByCategoryContainingIgnoreCase(keyword));</b>
+<b class="nc">&nbsp;            products.addAll(productRepository.findByColorContainingIgnoreCase(keyword));</b>
+<b class="nc">&nbsp;            products.addAll(productRepository.findByDescriptionContainingIgnoreCase(keyword));</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        model.addAttribute(&quot;products&quot;, products);</b>
+&nbsp;        //Visar resultatsidan.
+<b class="nc">&nbsp;        return &quot;ShowSearchPage&quot;;</b>
+&nbsp;    }
+&nbsp;    @GetMapping(&quot;/products&quot;)
+&nbsp;    public String listAllProducts(Model model) {
+<b class="nc">&nbsp;        List&lt;Product&gt; products = productRepository.findAll();</b>
+&nbsp;
+<b class="nc">&nbsp;        model.addAttribute(&quot;products&quot;, products);</b>
+&nbsp;        //Visar resultatsidan.
+<b class="nc">&nbsp;        return &quot;AllProductsPage&quot;;</b>
+&nbsp;    }
+&nbsp;    @GetMapping(&quot;/product/{id}&quot;)
+&nbsp;    public String showProduct(@PathVariable String id, Model model) {
+<b class="nc">&nbsp;        Product product = productRepository.findById(id).orElse(null);</b>
+<b class="nc">&nbsp;        model.addAttribute(&quot;product&quot;, product);</b>
+<b class="nc">&nbsp;        return &quot;productInfo&quot;;</b>
+&nbsp;    }
+&nbsp;    @GetMapping(&quot;/&quot;)
+&nbsp;    public String showIndex(Model model) {
+&nbsp;        // Hämta alla produkter från databasen
+<b class="nc">&nbsp;        List&lt;Product&gt; allProducts = productRepository.findAll();</b>
+&nbsp;
+&nbsp;        // Skapa en lista för att lagra slumpmässiga produkter
+<b class="nc">&nbsp;        List&lt;Product&gt; randomProducts = getRandomProducts(allProducts, 4); // Hämta 4 slumpmässiga produkter</b>
+&nbsp;
+&nbsp;        // Skicka de slumpmässiga produkterna till vyn
+<b class="nc">&nbsp;        model.addAttribute(&quot;products&quot;, randomProducts);</b>
+&nbsp;
+<b class="nc">&nbsp;        return &quot;index&quot;; // Namnet på din startsida-HTML-templaten</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Metod för att hämta ett slumpmässigt antal produkter från en lista
+&nbsp;    private List&lt;Product&gt; getRandomProducts(List&lt;Product&gt; productList, int count) {
+<b class="nc">&nbsp;        List&lt;Product&gt; randomProducts = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;        // Skapa en kopia av produktlistan för att undvika att ändra original listan
+<b class="nc">&nbsp;        List&lt;Product&gt; copyOfProductList = new ArrayList&lt;&gt;(productList);</b>
+&nbsp;
+&nbsp;        // Skapa en instans av Random
+<b class="nc">&nbsp;        Random random = new Random();</b>
+&nbsp;
+&nbsp;        // Begränsa antalet produkter att välja från om listan är mindre än count
+<b class="nc">&nbsp;        int maxIndex = Math.min(count, copyOfProductList.size());</b>
+&nbsp;
+&nbsp;        // Hämta slumpmässiga och unika produkter från listan
+<b class="nc">&nbsp;        for (int i = 0; i &lt; maxIndex; i++) {</b>
+&nbsp;            // Generera ett slumpmässigt index inom det återstående intervallet av produkter
+<b class="nc">&nbsp;            int randomIndex = random.nextInt(copyOfProductList.size());</b>
+&nbsp;
+&nbsp;            // Hämta produkten vid det slumpmässiga indexet och lägg till den i randomProducts
+<b class="nc">&nbsp;            randomProducts.add(copyOfProductList.remove(randomIndex));</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return randomProducts;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PostMapping(&quot;/addToCart/{productId}&quot;)
+&nbsp;    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; addToCart(@PathVariable(&quot;productId&quot;) String productId, HttpSession session) {
+&nbsp;        //Hämta en kundvagn associerad på användarens session
+<b class="nc">&nbsp;        Cart cart = (Cart) session.getAttribute(&quot;cart&quot;);</b>
+<b class="nc">&nbsp;        if (cart == null) {</b>
+<b class="nc">&nbsp;            cart = new Cart();</b>
+<b class="nc">&nbsp;            session.setAttribute(&quot;cart&quot;, cart);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        //Hämta produkten baserat på det angivna produkt-ID:t
+<b class="nc">&nbsp;        Product product = productService.getProductById(productId);</b>
+<b class="nc">&nbsp;        if (product == null) {</b>
+<b class="nc">&nbsp;            return ResponseEntity.badRequest().body(Collections.singletonMap(&quot;message&quot;, &quot;Product not found&quot;));</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        //Lägg till produkten i kundvagnen
+<b class="nc">&nbsp;        cart.getProductList().add(product);</b>
+<b class="nc">&nbsp;        cart.setTotalPrice(cart.getTotalPrice() + product.getPrice());</b>
+<b class="nc">&nbsp;        cart.setNumberOfProducts(cart.getNumberOfProducts() + 1);</b>
+&nbsp;
+&nbsp;        //Att spara eller uppdatera kundvagnen brukar inte behövas för sessionbaserade kundvagnar
+&nbsp;
+&nbsp;        //Skicka ett svar till klienten
+<b class="nc">&nbsp;        Map&lt;String, Object&gt; jsonResponse = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        jsonResponse.put(&quot;message&quot;, &quot;Product added to cart successfully&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        return ResponseEntity.ok(jsonResponse);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-29 14:03</div>
+</div>
+</body>
+</html>
