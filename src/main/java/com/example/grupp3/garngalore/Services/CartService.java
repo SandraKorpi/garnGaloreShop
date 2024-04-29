@@ -43,14 +43,27 @@ public class CartService {
         cartRepository.save(cart);
     }
 
-    public Cart getCartByIpAddress(String ipAddress) {
-        Optional<Cart> optionalCart = cartRepository.findByIpAddress(ipAddress);
+//    public Cart getCartByIpAddress(String ipAddress) {
+//        Optional<Cart> optionalCart = cartRepository.findByIpAddress(ipAddress);
+//
+//        if (optionalCart.isPresent()) {
+//            return optionalCart.get();
+//        } else {
+//            Cart cart = new Cart();
+//            cart.setIpAddress(ipAddress);
+//            cartRepository.save(cart);
+//            return cart;
+//        }
+//    }
+
+    public Cart getCartFromSession() {
+        Optional<Cart> optionalCart = cartRepository.findById("1");
 
         if (optionalCart.isPresent()) {
             return optionalCart.get();
         } else {
             Cart cart = new Cart();
-            cart.setIpAddress(ipAddress);
+            cart.setId("1");
             cartRepository.save(cart);
             return cart;
         }

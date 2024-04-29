@@ -20,8 +20,6 @@ public class Cart {
 
     private String userId;
 
-//    private List<Product> productList;
-
     private List<Product> productList = new ArrayList<>();
 
     private double totalPrice;
@@ -40,41 +38,5 @@ public class Cart {
         }
         return totalPrice;
     }
-
-//    public void setIpAddress(String ipAddress) {
-//        this.ipAddress = ipAddress;
-//
-//    }
-
-
-//    public Cart(String userId) {
-//    }
-//
-//    public void addProduct(Product product) {
-//        productList.add(product);
-//        totalPrice += product.getPrice();
-//        numberOfProducts++;
-//    }
-//
-//    public void removeProduct(String productId) {
-//        for (Product product : productList){
-//            if (productId.equals(productId)){
-//                product.getPrice();
-//                productList.remove(product);
-//                totalPrice -= product.getPrice();
-//                numberOfProducts --;
-//            }
-//        }
-//    }
-//
-//    public void updateProductQuantity(String productId, int quantity) {
-//        for (Product product : productList){
-//            if (productId.equals(productId)){
-//                totalPrice -= product.getPrice();
-//                product.setQuantity(quantity);
-//                totalPrice += product.getPrice();
-//            }
-//        }
-//    }
 }
 

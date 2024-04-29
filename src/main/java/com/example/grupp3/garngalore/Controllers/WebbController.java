@@ -14,5 +14,4 @@ public class WebbController {
     public String contact() {
         return "KundtjänstPage";
     }
-
 }

@@ -24,4 +24,7 @@ public class Product {
     private String color;
 
     // Använder Allargscontruktor istället för att skriva en.
+    public void updateStock(int quantityOrdered) {
+        this.quantity -= quantityOrdered; // Decrement stock count
+    }
 }

@@ -47,4 +47,8 @@ public class OrderService {
     public Iterable<Order> getAllOrders() {
         return orderRepository.findAll();
     }
+
+    public void saveOrder(Order order) {
+        orderRepository.save(order);
+    }
 }
