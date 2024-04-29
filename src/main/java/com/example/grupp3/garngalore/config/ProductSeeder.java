@@ -103,6 +103,17 @@ public class ProductSeeder implements CommandLineRunner {
         product8.setBild("/images/Vitt Alpacka.jpg");
         product8.setColor("Vit");
 
+        Product product9 = new Product();
+        product9.setName("Mönster Halsduk");
+        product9.setPrice(250);
+        product9.setDescription(" Halsduken stickas fram och tillbaka i ett \n" +
+                "resårmönster med vridna maskor och ett spetsmönster. Halsduken  stickas med två garnkvaliteter tillsammans, sockgarnet Junior \n" +
+                "Raggi och Cabrito, en vackert handfärgad kidmohair, som tillsammans ger stickningen sitt eget och helt unika utseende.");
+        product9.setCategory("Mönster");
+        product9.setQuantity(10);
+        product9.setBild("/images/halsduk.jpg");
+        product9.setColor(null); //har ingen färg.
+
         // Save products to the database
         productRepository.save(product1);
         productRepository.save(product2);
@@ -112,5 +123,6 @@ public class ProductSeeder implements CommandLineRunner {
         productRepository.save(product6);
         productRepository.save(product7);
         productRepository.save(product8);
+        productRepository.save(product9);
     }
 }
