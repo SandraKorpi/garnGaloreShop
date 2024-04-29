@@ -140,12 +140,12 @@ public class CartController {
         order.setTotalPrice(cart.getTotalPrice());
         orderService.saveOrder(order);
 
-        // Uppdatera lagersaldot för varje produkt i kundvagnen (inte klar metod)
-//        for (Product productInCart : cart.getProductList()) {
-//            int quantityOrdered = productInCart.getQuantity(); // Get quantity ordered
-//            productInCart.updateStock(quantityOrdered); // Update stock count using the method
-//            productService.updateProduct(product); // Save updated product
-//        }
+        // Uppdatera lagersaldot för varje produkt i kundvagnen
+        for (Product productInCart : cart.getProductList()) {
+            int quantityOrdered = 1; // Set quantity ordered to 1 for each product
+            productService.decreaseProductStock(productInCart.getId(), quantityOrdered); // Update stock count
+        }
+
 
         // Töm kundvagnen
         cart.getProductList().clear();
