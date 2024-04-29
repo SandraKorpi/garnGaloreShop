@@ -1,0 +1,246 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > UserController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.grupp3.garngalore.Controllers</a>
+</div>
+
+<h1>Coverage Summary for Class: UserController (com.example.grupp3.garngalore.Controllers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UserController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.grupp3.garngalore.Controllers;
+&nbsp;
+&nbsp;import com.example.grupp3.garngalore.Models.Cart;
+&nbsp;import com.example.grupp3.garngalore.Models.User;
+&nbsp;import com.example.grupp3.garngalore.Repositories.CartRepository;
+&nbsp;import com.example.grupp3.garngalore.Repositories.UserRepository;
+&nbsp;import com.example.grupp3.garngalore.Services.CartService;
+&nbsp;import com.example.grupp3.garngalore.Services.UserService;
+&nbsp;import jakarta.servlet.http.HttpSession;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Controller;
+&nbsp;import org.springframework.ui.Model;
+&nbsp;import org.springframework.web.bind.annotation.GetMapping;
+&nbsp;import org.springframework.web.bind.annotation.PostMapping;
+&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
+&nbsp;import org.springframework.web.bind.annotation.RequestParam;
+&nbsp;
+&nbsp;
+&nbsp;@Controller
+&nbsp;public class UserController {
+&nbsp;
+&nbsp;    // En instans av UserService injiceras här för att hantera användarrelaterad logik
+&nbsp;    private final UserService userService;
+&nbsp;
+&nbsp;@Autowired
+&nbsp;private UserRepository userRepository;
+&nbsp;    // Konstruktör för att injicera UserService genom beroendeinjektion
+&nbsp;    @Autowired
+<b class="nc">&nbsp;    public UserController(UserService userService) {</b>
+<b class="nc">&nbsp;        this.userService = userService;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Metod för att visa formulärsidan
+&nbsp;    @GetMapping(&quot;/registerUser&quot;)
+&nbsp;    public String showUserForm(Model model) {
+<b class="nc">&nbsp;        model.addAttribute(&quot;user&quot;, new User());</b>
+<b class="nc">&nbsp;        return &quot;RegisterPage&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Metod för att hantera inkommande POST-begäranden från formuläret
+&nbsp;    @PostMapping(&quot;/registerUser&quot;)
+&nbsp;    public String saveUser(User user, Model model) {
+&nbsp;        // Kontrollera om e-postadressen redan finns i databasen
+<b class="nc">&nbsp;        User existingUser = userService.getUserByEmail(user.getEmail());</b>
+<b class="nc">&nbsp;        if (existingUser != null) {</b>
+&nbsp;            // E-postadressen finns redan, visa felmeddelande
+<b class="nc">&nbsp;            model.addAttribute(&quot;error&quot;, &quot;E-postadressen finns redan i databasen. Vänligen välj en annan e-postadress.&quot;);</b>
+<b class="nc">&nbsp;            return &quot;RegisterPage&quot;;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // Sparar användaren om e-postadressen inte finns redan
+<b class="nc">&nbsp;        userRepository.save(user);</b>
+&nbsp;
+&nbsp;        // Meddelande för lyckad registrering
+<b class="nc">&nbsp;        model.addAttribute(&quot;success&quot;, &quot;Ditt konto hos Garn Galore är nu skapat.&quot;);</b>
+&nbsp;
+&nbsp;        // Returnera samma vy för registrering
+<b class="nc">&nbsp;        return &quot;RegisterPage&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Metod för att visa inloggningsformuläret
+&nbsp;    @GetMapping(&quot;/login&quot;)
+&nbsp;    public String showLoginForm(Model model) {
+&nbsp;        // Lägg till ett tomt användarobjekt i modellen för formuläret
+<b class="nc">&nbsp;        model.addAttribute(&quot;user&quot;, new User());</b>
+&nbsp;        // Returnera vyn för inloggningsformuläret
+<b class="nc">&nbsp;        return &quot;LogInPage&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Metod för att hantera inloggning av användare
+&nbsp;    @PostMapping(&quot;/login&quot;)
+&nbsp;    public String loginUser(@RequestParam(&quot;email&quot;) String email,
+&nbsp;                            @RequestParam(&quot;password&quot;) String password,
+&nbsp;                            Model model,
+&nbsp;                            HttpSession session) {
+&nbsp;        // Hämta användaren från databasen med hjälp av UserService
+<b class="nc">&nbsp;        User existingUser = userService.getUserByEmail(email);</b>
+&nbsp;        // Om användaren inte finns, lägg till ett felmeddelande och visa inloggningsformuläret igen
+<b class="nc">&nbsp;        if (existingUser == null) {</b>
+<b class="nc">&nbsp;            model.addAttribute(&quot;error&quot;, &quot;E-postadressen finns inte i vår databas.&quot;);</b>
+<b class="nc">&nbsp;            return &quot;LogInPage&quot;;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // Om lösenordet inte matchar, lägg till ett felmeddelande och visa inloggningsformuläret igen
+<b class="nc">&nbsp;        if (!existingUser.getPassword().equals(password)) {</b>
+<b class="nc">&nbsp;            model.addAttribute(&quot;error&quot;, &quot;Fel lösenord.&quot;);</b>
+<b class="nc">&nbsp;            return &quot;LogInPage&quot;;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // Lagra användarens ID i sessionen för att hålla dem inloggade
+<b class="nc">&nbsp;        session.setAttribute(&quot;loggedInUserId&quot;, existingUser.getId());</b>
+&nbsp;        // Skriv ut i konsolen för att testa att inloggningen har lyckats
+<b class="nc">&nbsp;        System.out.println(&quot;Användare med ID &quot; + existingUser.getId() + &quot; loggades in.&quot;);</b>
+&nbsp;
+&nbsp;        // Omdirigera till startsidan efter inloggningen
+<b class="nc">&nbsp;        return &quot;redirect:/&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Metod för att logga ut användaren
+&nbsp;    @GetMapping(&quot;/logout&quot;)
+&nbsp;    public String logoutUser(HttpSession session) {
+<b class="nc">&nbsp;        session.setAttribute(&quot;loggedInUserId&quot;, null);</b>
+&nbsp;        // Skriv ut i konsolen för att indikera att användaren har loggats ut
+<b class="nc">&nbsp;        System.out.println(&quot;Användaren har loggats ut.&quot;);</b>
+&nbsp;        // Omdirigera till startsidan efter utloggningen
+<b class="nc">&nbsp;        return &quot;redirect:/&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(&quot;/myPage&quot;)
+&nbsp;    public String myPage(Model model, HttpSession session) {
+&nbsp;        // Hämta användar-ID från sessionen
+<b class="nc">&nbsp;        String loggedInUserId = (String) session.getAttribute(&quot;loggedInUserId&quot;);</b>
+&nbsp;
+&nbsp;        // Kontrollera om användaren är inloggad
+<b class="nc">&nbsp;        if (loggedInUserId != null) {</b>
+&nbsp;            // Hämta den inloggade användaren från databasen
+<b class="nc">&nbsp;            User loggedInUser = userService.getUserById(loggedInUserId); // Anpassa detta beroende på din implementation</b>
+&nbsp;
+&nbsp;            // Lägg till den inloggade användaren i modellen för att skicka till vyn
+<b class="nc">&nbsp;            model.addAttribute(&quot;loggedInUser&quot;, loggedInUser);</b>
+&nbsp;
+&nbsp;            // Returnera vyn för Min sida
+<b class="nc">&nbsp;            return &quot;MinSidaPage&quot;;</b>
+&nbsp;        } else {
+&nbsp;            // Om användaren inte är inloggad, vidarebefordra till inloggningssidan eller visa ett felmeddelande
+<b class="nc">&nbsp;            return &quot;redirect:/login&quot;; // Anpassa detta beroende på din implementation</b>
+&nbsp;        }
+&nbsp;    }}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-29 14:03</div>
+</div>
+</body>
+</html>

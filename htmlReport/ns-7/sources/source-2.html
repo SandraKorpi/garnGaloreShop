@@ -1,0 +1,232 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ProductSeeder</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.grupp3.garngalore.config</a>
+</div>
+
+<h1>Coverage Summary for Class: ProductSeeder (com.example.grupp3.garngalore.config)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProductSeeder</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/77)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.grupp3.garngalore.config;
+&nbsp;
+&nbsp;import com.example.grupp3.garngalore.Models.Product;
+&nbsp;import com.example.grupp3.garngalore.Repositories.ProductRepository;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.boot.CommandLineRunner;
+&nbsp;import org.springframework.stereotype.Component;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Component
+&nbsp;public class ProductSeeder implements CommandLineRunner {
+&nbsp;
+&nbsp;    private final ProductRepository productRepository;
+&nbsp;
+&nbsp;    @Autowired
+<b class="nc">&nbsp;    public ProductSeeder(ProductRepository productRepository) {</b>
+<b class="nc">&nbsp;        this.productRepository = productRepository;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void run(String... args) {
+&nbsp;        // Check if products already exist
+<b class="nc">&nbsp;        List&lt;Product&gt; existingProducts = productRepository.findAll();</b>
+&nbsp;
+&nbsp;        // If no products exist, seed product data
+<b class="nc">&nbsp;        if (existingProducts.isEmpty()) {</b>
+<b class="nc">&nbsp;            seedProducts();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    
+&nbsp;    private void seedProducts() {
+&nbsp;        // Seed product data
+<b class="nc">&nbsp;        Product product1 = new Product();</b>
+<b class="nc">&nbsp;        product1.setName(&quot;Lila ekologiskt garn&quot;);</b>
+<b class="nc">&nbsp;        product1.setPrice(100);</b>
+<b class="nc">&nbsp;        product1.setDescription(&quot;Ekologiskt garn i lila färg.&quot;);</b>
+<b class="nc">&nbsp;        product1.setCategory(&quot;Ekologiskt garn&quot;);</b>
+<b class="nc">&nbsp;        product1.setQuantity(10);</b>
+<b class="nc">&nbsp;        product1.setBild(&quot;/images/lila garn.png&quot;);</b>
+<b class="nc">&nbsp;        product1.setColor(&quot;Lila&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        Product product2 = new Product();</b>
+<b class="nc">&nbsp;        product2.setName(&quot;Grön ekologiskt garn&quot;);</b>
+<b class="nc">&nbsp;        product2.setPrice(100);</b>
+<b class="nc">&nbsp;        product2.setDescription(&quot;Ekologiskt garn i grön färg.&quot;);</b>
+<b class="nc">&nbsp;        product2.setCategory(&quot;Ekologiskt garn&quot;);</b>
+<b class="nc">&nbsp;        product2.setQuantity(10);</b>
+<b class="nc">&nbsp;        product2.setBild(&quot;/images/grönt ullgarn.png&quot;);</b>
+<b class="nc">&nbsp;        product2.setColor(&quot;Grön&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        Product product3 = new Product();</b>
+<b class="nc">&nbsp;        product3.setName(&quot;Gult självlysande garn&quot;);</b>
+<b class="nc">&nbsp;        product3.setPrice(150);</b>
+<b class="nc">&nbsp;        product3.setDescription(&quot;Självlysande garn i gul färg.&quot;);</b>
+<b class="nc">&nbsp;        product3.setCategory(&quot;Självlysande garn&quot;);</b>
+<b class="nc">&nbsp;        product3.setQuantity(10);</b>
+<b class="nc">&nbsp;        product3.setBild(&quot;/images/Gult självlysande garn.png&quot;);</b>
+<b class="nc">&nbsp;        product3.setColor(&quot;Gul&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        Product product4 = new Product();</b>
+<b class="nc">&nbsp;        product4.setName(&quot;Rosa självlysande garn&quot;);</b>
+<b class="nc">&nbsp;        product4.setPrice(150);</b>
+<b class="nc">&nbsp;        product4.setDescription(&quot;Självlysande garn i rosa färg.&quot;);</b>
+<b class="nc">&nbsp;        product4.setCategory(&quot;Självlysande garn&quot;);</b>
+<b class="nc">&nbsp;        product4.setQuantity(10);</b>
+<b class="nc">&nbsp;        product4.setBild(&quot;/images/rosa självlysande garn.png&quot;);</b>
+<b class="nc">&nbsp;        product4.setColor(&quot;Rosa&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        Product product5 = new Product();</b>
+<b class="nc">&nbsp;        product5.setName(&quot;Blått handgjort ullgarn&quot;);</b>
+<b class="nc">&nbsp;        product5.setPrice(200);</b>
+<b class="nc">&nbsp;        product5.setDescription(&quot;Handgjort ullgarn i blå färg.&quot;);</b>
+<b class="nc">&nbsp;        product5.setCategory(&quot;Handgjort ullgarn&quot;);</b>
+<b class="nc">&nbsp;        product5.setQuantity(10);</b>
+<b class="nc">&nbsp;        product5.setBild(&quot;/images/Blått ullgarn.jpg&quot;);</b>
+<b class="nc">&nbsp;        product5.setColor(&quot;Blå&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        Product product6 = new Product();</b>
+<b class="nc">&nbsp;        product6.setName(&quot;Gult handgjort ullgarn&quot;);</b>
+<b class="nc">&nbsp;        product6.setPrice(200);</b>
+<b class="nc">&nbsp;        product6.setDescription(&quot;Handgjort ullgarn i gul färg.&quot;);</b>
+<b class="nc">&nbsp;        product6.setCategory(&quot;Handgjort ullgarn&quot;);</b>
+<b class="nc">&nbsp;        product6.setQuantity(10);</b>
+<b class="nc">&nbsp;        product6.setBild(&quot;/images/Gul ullgarn.jpg&quot;);</b>
+<b class="nc">&nbsp;        product6.setColor(&quot;Gul&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        Product product7 = new Product();</b>
+<b class="nc">&nbsp;        product7.setName(&quot;Grått Alpackagarn&quot;);</b>
+<b class="nc">&nbsp;        product7.setPrice(250);</b>
+<b class="nc">&nbsp;        product7.setDescription(&quot;Alpackagarn i grå färg.&quot;);</b>
+<b class="nc">&nbsp;        product7.setCategory(&quot;Alpackagarn&quot;);</b>
+<b class="nc">&nbsp;        product7.setQuantity(10);</b>
+<b class="nc">&nbsp;        product7.setBild(&quot;/images/grå alpackagarn.jpg&quot;);</b>
+<b class="nc">&nbsp;        product7.setColor(&quot;Grått&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        Product product8 = new Product();</b>
+<b class="nc">&nbsp;        product8.setName(&quot;Vitt Alpackagarn&quot;);</b>
+<b class="nc">&nbsp;        product8.setPrice(250);</b>
+<b class="nc">&nbsp;        product8.setDescription(&quot;Alpackagarn i vit färg.&quot;);</b>
+<b class="nc">&nbsp;        product8.setCategory(&quot;Alpackagarn&quot;);</b>
+<b class="nc">&nbsp;        product8.setQuantity(10);</b>
+<b class="nc">&nbsp;        product8.setBild(&quot;/images/Vitt Alpacka.jpg&quot;);</b>
+<b class="nc">&nbsp;        product8.setColor(&quot;Vit&quot;);</b>
+&nbsp;
+&nbsp;        // Save products to the database
+<b class="nc">&nbsp;        productRepository.save(product1);</b>
+<b class="nc">&nbsp;        productRepository.save(product2);</b>
+<b class="nc">&nbsp;        productRepository.save(product3);</b>
+<b class="nc">&nbsp;        productRepository.save(product4);</b>
+<b class="nc">&nbsp;        productRepository.save(product5);</b>
+<b class="nc">&nbsp;        productRepository.save(product6);</b>
+<b class="nc">&nbsp;        productRepository.save(product7);</b>
+<b class="nc">&nbsp;        productRepository.save(product8);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-29 14:03</div>
+</div>
+</body>
+</html>

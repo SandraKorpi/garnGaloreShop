@@ -1,0 +1,191 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ProductService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.grupp3.garngalore.Services</a>
+</div>
+
+<h1>Coverage Summary for Class: ProductService (com.example.grupp3.garngalore.Services)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProductService</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.grupp3.garngalore.Services;
+&nbsp;
+&nbsp;import com.example.grupp3.garngalore.Models.Product;
+&nbsp;import com.example.grupp3.garngalore.Repositories.ProductRepository;
+&nbsp;import com.mongodb.MongoException;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;@Service
+<b class="nc">&nbsp;public class ProductService {</b>
+&nbsp;    @Autowired
+&nbsp;    private ProductRepository productRepository;
+&nbsp;
+&nbsp;    public void createUser(Product product) {
+<b class="nc">&nbsp;        productRepository.save(product);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Product getUserById(String id) {
+<b class="nc">&nbsp;        Optional&lt;Product&gt; optionalProduct = productRepository.findById(id);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (optionalProduct.isPresent()) {</b>
+<b class="nc">&nbsp;            return optionalProduct.get();</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            throw new MongoException(&quot;Produkt med ID &quot; + id + &quot; hittades inte.&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void deleteProduct(String id) {
+<b class="nc">&nbsp;        if (productRepository.existsById(id)) {</b>
+<b class="nc">&nbsp;            productRepository.deleteById(id);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            throw new MongoException(&quot;Produkt med ID &quot; + id + &quot; finns inte i databasen.&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void updateProduct(String id, Product product) {
+<b class="nc">&nbsp;        if (productRepository.existsById(id)) {</b>
+<b class="nc">&nbsp;            product.setId(id);</b>
+<b class="nc">&nbsp;            productRepository.save(product);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            throw new MongoException(&quot;Produkt med ID &quot; + id + &quot; finns inte i databasen.&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public Iterable&lt;Product&gt; getAllProducts() {
+<b class="nc">&nbsp;        return productRepository.findAll();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Product getProductById(String productId) {
+<b class="nc">&nbsp;        Optional&lt;Product&gt; optionalProduct = productRepository.findById(productId);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (optionalProduct.isPresent()) {</b>
+<b class="nc">&nbsp;            return optionalProduct.get();</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            throw new MongoException(&quot;Produkt med ID &quot; + productId + &quot; hittades inte.&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    //Reduces the quantity of a product by the given amount, when a product is bought (when cart is paid for)
+&nbsp;    public void updateProductQuantity(String id, int quantity) {
+<b class="nc">&nbsp;        Optional&lt;Product&gt; optionalProduct = productRepository.findById(id);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (optionalProduct.isPresent()) {</b>
+<b class="nc">&nbsp;            Product product = optionalProduct.get();</b>
+<b class="nc">&nbsp;            product.setQuantity(quantity);</b>
+<b class="nc">&nbsp;            productRepository.save(product);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            throw new MongoException(&quot;Produkt med ID &quot; + id + &quot; hittades inte.&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-04-29 14:03</div>
+</div>
+</body>
+</html>
