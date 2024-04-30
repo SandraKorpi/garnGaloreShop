@@ -149,8 +149,11 @@
                     <p class="card-text">
                         <strong>Antal varor: </strong> <span th:text="${cart.numberOfProducts}">Number</span><br>
                     <div th:each="product : ${cart.productList}">
-                        <strong>Namn:</strong> <span th:text="${product.name}">Product Name</span><br>
+                    <img th:src="@{${product.bild}}" class="card-img-top" alt="Product Image" style="width: 120px; height: auto;"><br>
+                    <strong>Namn:</strong> <span th:text="${product.name}">Product Name</span><br>
                         <strong>Pris:</strong> <span th:text="${product.price}">Price</span><br>
+
+<!--                    <img th:src="@{${product.bild}}" class="card-img-top" alt="Product Image">-->
 <!--                        <strong>Klicka på id-nr för att ta bort varan</strong> <span th:text="${product.id}" class="productId">Id</span><br>-->
                     <hr> <!-- Linje -->
                 </div>

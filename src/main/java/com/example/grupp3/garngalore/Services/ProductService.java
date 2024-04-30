@@ -71,5 +71,19 @@ public class ProductService {
         }
     }
 
+    public void decreaseProductStock(String productId, int quantitySold) {
+        Product product = productRepository.findById(productId).orElse(null);
+        if (product != null) {
+            int currentStock = product.getQuantity();
+            if (currentStock >= quantitySold) {
+                product.setQuantity(currentStock - quantitySold);
+                productRepository.save(product);
+            } else {
+                // Hantera fallet där det inte finns tillräckligt med lager
+                // Till exempel kasta ett undantag eller logga ett meddelande
+            }
+        }
+    }
+
 
 }
