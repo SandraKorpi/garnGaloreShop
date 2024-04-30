@@ -13,44 +13,51 @@
 	<artifactId>GarnGalore</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>GarnGalore</name>
-	<description>GarnGalore</description>
+	<description>Project for GarnGalore</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+
 	<dependencies>
 		<!-- Spring Boot Starter for MongoDB -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
 		</dependency>
+
 		<!-- Spring Boot Starter for Thymeleaf -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
-		<!-- Spring Boot Starter for Web applications -->
+
+		<!-- Spring Boot Starter Web for building web applications -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<!-- Dotenv to manage environment variables -->
+
+		<!-- Dotenv for managing environment variables more securely -->
 		<dependency>
 			<groupId>io.github.cdimascio</groupId>
 			<artifactId>dotenv-java</artifactId>
 			<version>3.0.0</version>
 		</dependency>
-		<!-- Lombok to reduce boilerplate code -->
+
+		<!-- Lombok for reducing boilerplate code like getters, setters -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+
+		<!-- Spring Boot Starter Test for testing support -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-			<!-- Include necessary modules for testing -->
 			<exclusions>
+				<!-- Exclude JUnit Vintage to avoid conflicts with JUnit 5 -->
 				<exclusion>
 					<groupId>org.junit.vintage</groupId>
 					<artifactId>junit-vintage-engine</artifactId>
@@ -61,6 +68,7 @@
 
 	<build>
 		<plugins>
+			<!-- Spring Boot Maven Plugin for easier application packaging and execution -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
