@@ -18,7 +18,7 @@ Detta är projektarbetet för grupp 3 i kurserna JIN och IPL vid Campus Mölndal
 ## Installation
 För att sätta upp en lokal utvecklingsmiljö, följ dessa steg:
 
-1. Klona repot: https://github.com/dinGithub/grupp3JIN-IPL.git
+1. Klona repot: https://github.com/SandraKorpi/garnGaloreShop.git
 2. Installera beroenden:
 3. Starta servern:
 4. Öppna webbläsaren och gå till `http://localhost:8080`.
@@ -27,8 +27,8 @@ För att sätta upp en lokal utvecklingsmiljö, följ dessa steg:
 Detta projekt är licensierat under MIT-licensen - se [LICENSE.md](LICENSE.md) för detaljer.
 
 ## Bidragsgivare
-- ** Sandra Korpi**
-- ** Mathias Bergman**
-- ** Caroline Eklund**
-- ** Andrea Sveinsdottir**
+- **Sandra Korpi**
+- **Mathias Bergman**
+- **Caroline Eklund**
+- **Andrea Sveinsdottir**
 
